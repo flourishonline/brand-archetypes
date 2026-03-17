@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Archetype Quiz — Flourish Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:       #C0392B;
+      --red-dark:  #9B2B1F;
+      --red-light: #F9ECEA;
+      --ink:       #1A1A1A;
+      --warm:      #5C4A3A;
+      --mid:       #8B7B6E;
+      --pale:      #FAF8F5;
+      --white:     #FFFFFF;
+      --border:    #E8E0D8;
+
+      /* Archetype colours */
+      --c-adventuress:    #3B5998;
+      --c-alchemist:      #7B3FA0;
+      --c-badass:         #C0392B;
+      --c-creatress:      #0E8A7A;
+      --c-girl-next-door: #7F8C8D;
+      --c-heroine:        #D4680A;
+      --c-lover:          #C2185B;
+      --c-mischief-maker: #D4900A;
+      --c-nurturer:       #2D8A5A;
+      --c-pure-heart:     #8E9FA0;
+      --c-queen:          #1A2E44;
+      --c-sage:           #0E7A6A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--pale);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCREEN MANAGER ─────────────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── SHARED COMPONENTS ──────────────────────────────────────── */
+    .logo {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid var(--red);
+    }
+    .btn-outline:hover { background: var(--red); color: var(--white); }
+
+    /* ── NOISE TEXTURE overlay ──────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════ */
+    /* SCREEN 1 — LANDING                                          */
+    /* ═══════════════════════════════════════════════════════════ */
+    #screen-landing {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+    }
+    #screen-landing.active { display: flex; }
+
+    .landing-nav {
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .landing-hero {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 70px);
+    }
+
+    .hero-left {
+      background: var(--red);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 4.5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-body {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .hero-meta-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-meta-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .hero-right {
+      background: var(--white);
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-right-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 2rem;
+    }
+
+    .tier-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 3rem;
+    }
+    .tier-item {
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+    .tier-item:first-child { border-top: 1px solid var(--border); }
+    .tier-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--red);
+      line-height: 1;
+      min-width: 1.5rem;
+    }
+    .tier-content {}
+    .tier-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .tier-desc {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: var(--warm);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .landing-hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 3rem 2rem; }
+      .hero-right { padding: 3rem 2rem; }
+      .landing-nav { padding: 1.25rem 1.5rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════ */
+    /* SCREEN 2 — QUIZ                                             */
+    /* ═══════════════════════════════════════════════════════════ */
+    #screen-quiz {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+    }
+    #screen-quiz.active { display: flex; }
+
+    .quiz-header {
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .quiz-progress-wrap {
+      flex: 1;
+      max-width: 280px;
+      margin: 0 2rem;
+    }
+    .quiz-progress-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.4rem;
+    }
+    .quiz-progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .quiz-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .question-card {
+      width: 100%;
+      max-width: 680px;
+      animation: fadeSlideIn 0.35s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--red);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .answer-btn {
+      width: 100%;
+      text-align: left;
+      padding: 1.1rem 1.5rem;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .answer-btn:hover {
+      border-color: var(--red);
+      background: var(--red-light);
+    }
+    .answer-btn.selected {
+      border-color: var(--red);
+      background: var(--red);
+      color: var(--white);
+    }
+    .answer-letter {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      min-width: 1rem;
+      margin-top: 0.15rem;
+    }
+    .answer-btn.selected .answer-letter { opacity: 0.7; }
+
+    .quiz-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* ═══════════════════════════════════════════════════════════ */
+    /* SCREEN 3 — OPT-IN                                           */
+    /* ═══════════════════════════════════════════════════════════ */
+    #screen-optin {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    #screen-optin.active { display: flex; }
+
+    .optin-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      padding: 4rem;
+      border: 1px solid var(--border);
+      animation: fadeSlideIn 0.4s ease forwards;
+    }
+
+    .optin-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+    .optin-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .optin-body {
+      font-size: 0.9375rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--warm);
+      margin-bottom: 2.5rem;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+    .field label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 0.4rem;
+    }
+    .field input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--pale);
+      border: 1.5px solid var(--border);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field input:focus { border-color: var(--red); }
+    .field input::placeholder { color: var(--mid); }
+
+    .optin-privacy {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+
+    .optin-error {
+      display: none;
+      color: var(--red);
+      font-size: 0.825rem;
+      margin-top: 0.75rem;
+    }
+    .optin-error.visible { display: block; }
+
+    .optin-loading {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--warm);
+      font-size: 0.875rem;
+    }
+    .optin-loading.visible { display: flex; }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .optin-card { padding: 2.5rem 1.75rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════ */
+    /* SCREEN 4 — RESULTS                                          */
+    /* ═══════════════════════════════════════════════════════════ */
+    #screen-results {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+    }
+    #screen-results.active { display: flex; }
+
+    .results-hero {
+      background: var(--red);
+      padding: 4rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .results-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: -120px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .results-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 350px; height: 350px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.06);
+    }
+
+    .results-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+    .results-main-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .results-archetype-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .results-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .results-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 5rem;
+      width: 100%;
+    }
+
+    /* Three-tier callout strip */
+    .tier-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 3.5rem;
+    }
+    .tier-strip-item {
+      background: var(--white);
+      padding: 1.5rem;
+    }
+    .tier-strip-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.35rem;
+    }
+    .tier-strip-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .tier-strip-desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--warm);
+      line-height: 1.5;
+    }
+    .tier-strip-item.main .tier-strip-label { color: var(--red); }
+    .tier-strip-item.main .tier-strip-name { font-weight: 600; }
+
+    /* Chart section */
+    .chart-section {
+      margin-bottom: 3.5rem;
+    }
+    .chart-section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1.75rem;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 3.5rem;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.45rem 0;
+    }
+    .chart-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--warm);
+      text-align: right;
+    }
+    .chart-label.highlight { color: var(--ink); font-weight: 600; }
+    .chart-bar-track {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+      width: 0;
+    }
+    .chart-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--mid);
+    }
+    .chart-pct.highlight { color: var(--ink); }
+
+    /* Badge rows */
+    .badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2em 0.55em;
+      border-radius: 2px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+    .badge-main    { background: var(--red);    color: white; }
+    .badge-second  { background: var(--ink);    color: white; }
+    .badge-shadow  { background: #888;          color: white; }
+
+    /* CTA section */
+    .results-cta {
+      background: var(--ink);
+      padding: 3.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .results-cta-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.75rem;
+    }
+    .results-cta-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+    .results-cta-body {
+      font-size: 0.9375rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.65;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-white:hover { background: var(--pale); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.3);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: white; color: white; }
+
+    @media (max-width: 700px) {
+      .tier-strip { grid-template-columns: 1fr; }
+      .chart-row { grid-template-columns: 120px 1fr 3rem; }
+      .results-cta { padding: 2.5rem 1.5rem; }
+      .results-body { padding: 2.5rem 1.5rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREEN 1: LANDING                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="screen-landing" class="screen">
+  <nav class="landing-nav">
+    <a href="https://flourishonline.com.au" class="logo">Flourish Online</a>
+  </nav>
+  <div class="landing-hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">The Brand Archetype Quiz</p>
+      <h1 class="hero-headline">
+        Who is your<br />brand, <em>really?</em>
+      </h1>
+      <p class="hero-body">
+        Twelve questions. Three minutes. And you'll finally have language for the thing that's been making your brand feel off — or making it click.
+      </p>
+      <button class="btn btn-primary" onclick="startQuiz()" style="align-self: flex-start;">
+        Start the quiz →
+      </button>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">12</span>
+          <span class="hero-meta-label">questions</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">3</span>
+          <span class="hero-meta-label">results</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-num">1</span>
+          <span class="hero-meta-label">brand clarity</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <p class="hero-right-label">What you'll discover</p>
+      <div class="tier-list">
+        <div class="tier-item">
+          <span class="tier-num">1</span>
+          <div class="tier-content">
+            <div class="tier-title">Your Main Archetype</div>
+            <div class="tier-desc">Your dominant brand energy — the through-line of everything you do.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <span class="tier-num">2</span>
+          <div class="tier-content">
+            <div class="tier-title">Your Secondary Archetype</div>
+            <div class="tier-desc">The supporting energy that makes you distinct within your main. Your signature flavour.</div>
+          </div>
+        </div>
+        <div class="tier-item">
+          <span class="tier-num">3</span>
+          <div class="tier-content">
+            <div class="tier-title">Your Shadow Archetype</div>
+            <div class="tier-desc">The energy you suppress most — and your biggest hidden brand potential.</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startQuiz()">Take the quiz — it's free →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREEN 2: QUIZ                                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="screen-quiz" class="screen">
+  <header class="quiz-header">
+    <a href="#" class="logo" onclick="goToLanding(); return false;">Flourish Online</a>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-label">Question <span id="progress-current">1</span> of 12</div>
+      <div class="quiz-progress-bar">
+        <div class="quiz-progress-fill" id="progress-fill" style="width: 8.33%;"></div>
+      </div>
+    </div>
+    <div style="width: 120px;"></div>
+  </header>
+  <div class="quiz-body">
+    <div class="question-card" id="question-card">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREEN 3: OPT-IN                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="screen-optin" class="screen">
+  <div class="optin-card">
+    <p class="optin-eyebrow">You're done ✓</p>
+    <h2 class="optin-headline">Where should we send your results?</h2>
+    <p class="optin-body">
+      Enter your details below to see your full archetype breakdown — including your main, secondary, and shadow archetypes, and what they mean for your brand.
+    </p>
+    <div class="field">
+      <label for="first-name">First name</label>
+      <input type="text" id="first-name" placeholder="Your first name" autocomplete="given-name" />
+    </div>
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+    </div>
+    <div style="margin-top: 1.5rem;">
+      <button class="btn btn-primary" onclick="submitOptin()" id="optin-btn" style="width: 100%; justify-content: center;">
+        Show me my results →
+      </button>
+    </div>
+    <div class="optin-error" id="optin-error"></div>
+    <div class="optin-loading" id="optin-loading">
+      <div class="spinner"></div>
+      <span>Analysing your results…</span>
+    </div>
+    <p class="optin-privacy">
+      No spam, ever. By entering your details you're agreeing to receive occasional emails from Flourish Online. You can unsubscribe at any time.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREEN 4: RESULTS                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="screen-results" class="screen">
+  <div class="results-hero">
+    <p class="results-eyebrow">Your Brand Archetype Results</p>
+    <p class="results-main-label">Your main archetype is</p>
+    <h1 class="results-archetype-name" id="result-name">—</h1>
+    <p class="results-tagline" id="result-tagline">—</p>
+    <a href="#" id="result-cta-hero" class="btn" style="background:rgba(255,255,255,0.18); color:white; border: 1px solid rgba(255,255,255,0.4); position:relative; z-index:1;">
+      Explore your full archetype profile →
+    </a>
+  </div>
+
+  <div class="results-body">
+    <!-- Three-tier strip -->
+    <div class="tier-strip" id="tier-strip">
+      <div class="tier-strip-item main">
+        <div class="tier-strip-label">Main Archetype</div>
+        <div class="tier-strip-name" id="strip-main-name">—</div>
+        <div class="tier-strip-desc">Your dominant brand energy — the through-line of everything.</div>
+      </div>
+      <div class="tier-strip-item">
+        <div class="tier-strip-label">Secondary Archetype</div>
+        <div class="tier-strip-name" id="strip-secondary-name">—</div>
+        <div class="tier-strip-desc">Your signature flavour — what makes you distinct within your main.</div>
+      </div>
+      <div class="tier-strip-item">
+        <div class="tier-strip-label">Shadow Archetype</div>
+        <div class="tier-strip-name" id="strip-shadow-name">—</div>
+        <div class="tier-strip-desc">Your suppressed energy — and your biggest hidden brand potential.</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-section">
+      <div class="chart-section-title">Your full archetype breakdown</div>
+      <div id="chart-rows"><!-- rendered by JS --></div>
+    </div>
+
+    <!-- Footnote -->
+    <p style="font-size:0.825rem; color:var(--mid); line-height:1.6; margin-bottom:2rem;">
+      <strong style="color:var(--ink);">Understanding your three archetypes:</strong><br />
+      Your <em>main</em> archetype is your brand's dominant energy — lean into it. Your <em>secondary</em> is the flavour that makes you unique within your category. Your <em>shadow</em> is the energy you most suppress — and often your greatest untapped advantage. Want a deep dive on all three working together?
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <div class="results-cta">
+    <p class="results-cta-eyebrow">Your brand finally has a name. Now let's build it.</p>
+    <h2 class="results-cta-headline" id="cta-headline">Dive deeper into your archetype.</h2>
+    <p class="results-cta-body">
+      Your archetype is a strategic asset — but only if your visual brand, website, and messaging actually reflect it. Let's fix the gap between your expertise and your market presence.
+    </p>
+    <div class="cta-buttons">
+      <a href="#" id="cta-explore-btn" class="btn-white">Explore my archetype in full →</a>
+      <a href="https://flourishonline.com.au/services" class="btn-ghost">Work with Flourish</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════
+
+const QUESTIONS = [
+  {
+    text: "You sit down to create content. What flows most naturally?",
+    answers: [
+      { text: "A heartfelt story about a client's breakthrough or healing journey", archetype: "Nurturer" },
+      { text: "A bold take that challenges what your industry keeps getting wrong", archetype: "Badass" },
+      { text: "A meaty framework — something that actually teaches people something real", archetype: "Sage" },
+      { text: "Something visually striking where the beauty does half the work", archetype: "Creatress" },
+    ]
+  },
+  {
+    text: "You're at a networking event. What does your energy look like?",
+    answers: [
+      { text: "You find the person who looks like they don't know anyone and go to them first", archetype: "Girl Next Door" },
+      { text: "You're calibrating the room — you know exactly who you want to connect with", archetype: "Queen" },
+      { text: "You've made three people laugh within the first fifteen minutes", archetype: "Mischief Maker" },
+      { text: "You're planning your escape to somewhere more interesting", archetype: "Adventuress" },
+    ]
+  },
+  {
+    text: "A client says "you completely changed my life." What actually happened?",
+    answers: [
+      { text: "You made them feel safe enough to finally be honest about what they really needed", archetype: "Nurturer" },
+      { text: "You helped them see a version of themselves they couldn't have reached alone", archetype: "Alchemist" },
+      { text: "You refused to let them give up when they most wanted to", archetype: "Heroine" },
+      { text: "You witnessed them so fully they started to believe in themselves", archetype: "Lover" },
+    ]
+  },
+  {
+    text: "If someone asked you to describe your brand personality in one word, you'd say…",
+    answers: [
+      { text: '"Real."', archetype: "Girl Next Door" },
+      { text: '"Transformative."', archetype: "Alchemist" },
+      { text: '"Fierce."', archetype: "Badass" },
+      { text: '"Irreverent."', archetype: "Mischief Maker" },
+    ]
+  },
+  {
+    text: "Your most energising day in business looks like…",
+    answers: [
+      { text: "Deep client sessions where real breakthroughs happen in real time", archetype: "Nurturer" },
+      { text: "Being completely lost in creation — writing, designing, making something", archetype: "Creatress" },
+      { text: "Strategic work — moving your vision forward, leading, building something bigger", archetype: "Queen" },
+      { text: "Something completely unexpected that takes you somewhere new", archetype: "Adventuress" },
+    ]
+  },
+  {
+    text: "A peer asks for your honest feedback on their work. You…",
+    answers: [
+      { text: "Anchor on the genuine strengths before gently naming what's not working", archetype: "Pure Heart" },
+      { text: "Tell them the truth directly — the kindest thing you can do is be honest", archetype: "Badass" },
+      { text: "Ask questions that help them work it out themselves", archetype: "Sage" },
+      { text: "Completely reframe the problem in a way they hadn't seen before", archetype: "Alchemist" },
+    ]
+  },
+  {
+    text: "Your relationship with your industry's 'rules':",
+    answers: [
+      { text: "You follow them — trust is built through reliability and consistency", archetype: "Pure Heart" },
+      { text: "You've studied them long enough to know exactly when they apply", archetype: "Sage" },
+      { text: "You're here to lead the conversation, not join it", archetype: "Queen" },
+      { text: "The rules were written before you arrived", archetype: "Badass" },
+    ]
+  },
+  {
+    text: "Your content is resonating. What are people responding to?",
+    answers: [
+      { text: "How seen they feel — like you reached inside and named something they couldn't", archetype: "Lover" },
+      { text: "Your humour — they're tagging their friends and screenshotting your posts", archetype: "Mischief Maker" },
+      { text: "Your consistency — you're the person they know will always show up", archetype: "Pure Heart" },
+      { text: "Your nerve — you said the thing they were thinking but didn't dare say", archetype: "Heroine" },
+    ]
+  },
+  {
+    text: "You're designing a new offer. What's your first instinct?",
+    answers: [
+      { text: "The transformation — what will their life actually feel like after?", archetype: "Alchemist" },
+      { text: "The container — how do I make this feel genuinely safe and supported?", archetype: "Nurturer" },
+      { text: "The aesthetics — how does this look, feel, live, breathe?", archetype: "Creatress" },
+      { text: "The gap — what is no one else offering that my people desperately need?", archetype: "Adventuress" },
+    ]
+  },
+  {
+    text: "What do you want your legacy to be?",
+    answers: [
+      { text: '"She made me feel less alone."', archetype: "Lover" },
+      { text: '"She built something that outlasted her."', archetype: "Queen" },
+      { text: '"She was just so real. You always knew where you stood."', archetype: "Girl Next Door" },
+      { text: '"She showed me what I didn\'t know was possible."', archetype: "Adventuress" },
+    ]
+  },
+  {
+    text: "Your relationship with the spotlight:",
+    answers: [
+      { text: "It finds you because your conviction is magnetic — you're built for it", archetype: "Heroine" },
+      { text: "You've earned it — recognition is a natural byproduct of mastery", archetype: "Sage" },
+      { text: "You'd rather be behind the work than in front of it", archetype: "Creatress" },
+      { text: "You attract it by accident — usually by saying something outrageous", archetype: "Mischief Maker" },
+    ]
+  },
+  {
+    text: "Your business philosophy, in one sentence:",
+    answers: [
+      { text: '"Do good work. Be a good human. It\'s really not that complicated."', archetype: "Pure Heart" },
+      { text: '"If it doesn\'t move me first, it won\'t move them."', archetype: "Lover" },
+      { text: '"People don\'t need perfection. They need someone real."', archetype: "Girl Next Door" },
+      { text: '"The only way out is through."', archetype: "Heroine" },
+    ]
+  },
+];
+
+const ARCHETYPE_DATA = {
+  'Adventuress':    { color: '#3B5998', url: 'https://flourishonline.com/quiz/brand-archetype-adventuress',   tagline: "You're not here to follow the path. You're here to make one." },
+  'Alchemist':      { color: '#7B3FA0', url: 'https://flourishonline.com/quiz/brand-archetype-alchemist',     tagline: "You don't just help people change. You help them become." },
+  'Badass':         { color: '#C0392B', url: 'https://flourishonline.com/quiz/brand-archetype-badass',         tagline: "You were told to be more palatable. You chose not to." },
+  'Creatress':      { color: '#0E8A7A', url: 'https://flourishonline.com/quiz/brand-archetype-creatress',     tagline: "You make things that didn't exist before. That's not a hobby. It's a superpower." },
+  'Girl Next Door': { color: '#7F8C8D', url: 'https://flourishonline.com/quiz/brand-archetype-girl-next-door', tagline: "People don't just trust you. They actually like you. That's rarer than any credential." },
+  'Heroine':        { color: '#D4680A', url: 'https://flourishonline.com/quiz/brand-archetype-heroine',       tagline: "You kept going when you had every reason to stop. Now you show others how." },
+  'Lover':          { color: '#C2185B', url: 'https://flourishonline.com/quiz/brand-archetype-lover',         tagline: "You don't just create work. You create experiences that move people." },
+  'Mischief Maker': { color: '#D4900A', url: 'https://flourishonline.com/quiz/brand-archetype-mischief-maker', tagline: "You make hard things feel possible by making them feel human. That's not a small gift." },
+  'Nurturer':       { color: '#2D8A5A', url: 'https://flourishonline.com/quiz/brand-archetype-nurturer',     tagline: "You create the kind of safety that most people have been looking for their whole lives." },
+  'Pure Heart':     { color: '#8E9FA0', url: 'https://flourishonline.com/quiz/brand-archetype-pure-heart',   tagline: "In a world of performance and polish, you're just genuinely, quietly excellent. That's everything." },
+  'Queen':          { color: '#1A2E44', url: 'https://flourishonline.com/quiz/brand-archetype-queen',         tagline: "You don't just take up space. You change what a space is capable of." },
+  'Sage':           { color: '#0E7A6A', url: 'https://flourishonline.com/quiz/brand-archetype-sage',         tagline: "You don't just know things. You understand them — and that changes everything." },
+};
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let currentQuestion = 0;
+let answers = new Array(12).fill(null); // index = question, value = archetype string
+let scores = {};
+
+// ═══════════════════════════════════════════════════════════
+// SCREEN MANAGEMENT
+// ═══════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goToLanding() { showScreen('screen-landing'); }
+
+// ═══════════════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════════════
+function startQuiz() {
+  currentQuestion = 0;
+  answers = new Array(12).fill(null);
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQuestion];
+  const letters = ['A', 'B', 'C', 'D'];
+  const selected = answers[currentQuestion];
+
+  document.getElementById('progress-current').textContent = currentQuestion + 1;
+  document.getElementById('progress-fill').style.width = `${((currentQuestion + 1) / 12) * 100}%`;
+
+  const card = document.getElementById('question-card');
+  card.innerHTML = `
+    <div class="question-num">0${currentQuestion + 1}</div>
+    <div class="question-text">${q.text}</div>
+    <div class="answers">
+      ${q.answers.map((a, i) => `
+        <button class="answer-btn ${selected === a.archetype ? 'selected' : ''}"
+                onclick="selectAnswer('${a.archetype}', ${i})">
+          <span class="answer-letter">${letters[i]}</span>
+          <span>${a.text}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="quiz-footer">
+      ${currentQuestion > 0 ? `<button class="btn btn-outline" onclick="prevQuestion()" style="margin-right:auto">← Back</button>` : ''}
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()"
+              ${selected ? '' : 'disabled'}>
+        ${currentQuestion < 11 ? 'Next →' : 'See my results →'}
+      </button>
+    </div>
+  `;
+
+  // Re-trigger animation
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = ''; });
+}
+
+function selectAnswer(archetype, index) {
+  answers[currentQuestion] = archetype;
+  document.querySelectorAll('.answer-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === index);
+  });
+  document.getElementById('next-btn').disabled = false;
+}
+
+function nextQuestion() {
+  if (answers[currentQuestion] === null) return;
+  if (currentQuestion < 11) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    computeScores();
+    showScreen('screen-optin');
+  }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════════════════════
+function computeScores() {
+  scores = {};
+  Object.keys(ARCHETYPE_DATA).forEach(a => scores[a] = 0);
+  answers.forEach(a => { if (a) scores[a]++; });
+}
+
+function getResults() {
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  return {
+    main:      sorted[0][0],
+    secondary: sorted[1][0],
+    shadow:    sorted[sorted.length - 1][0],
+    all:       sorted
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// OPT-IN
+// ═══════════════════════════════════════════════════════════
+async function submitOptin() {
+  const firstName = document.getElementById('first-name').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const errorEl   = document.getElementById('optin-error');
+  const loadingEl = document.getElementById('optin-loading');
+  const btn       = document.getElementById('optin-btn');
+
+  errorEl.classList.remove('visible');
+
+  if (!firstName) { showError('Please enter your first name.'); return; }
+  if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
+
+  const results = getResults();
+
+  btn.disabled = true;
+  loadingEl.classList.add('visible');
+
+  try {
+    const res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName,
+        email,
+        mainArchetype:      results.main,
+        secondaryArchetype: results.secondary,
+        shadowArchetype:    results.shadow,
+        scores
+      })
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Something went wrong. Please try again.');
+    }
+  } catch (err) {
+    // If API fails (e.g. local dev without AC), still show results
+    console.warn('Subscribe API error:', err.message);
+  }
+
+  loadingEl.classList.remove('visible');
+  showResults(firstName);
+}
+
+function showError(msg) {
+  const el = document.getElementById('optin-error');
+  el.textContent = msg;
+  el.classList.add('visible');
+  document.getElementById('optin-btn').disabled = false;
+  document.getElementById('optin-loading').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════
+// RESULTS
+// ═══════════════════════════════════════════════════════════
+function showResults(firstName) {
+  const results = getResults();
+  const mainData = ARCHETYPE_DATA[results.main];
+
+  // Hero
+  document.getElementById('result-name').textContent = `The ${results.main}`;
+  document.getElementById('result-tagline').textContent = mainData.tagline;
+  const heroBtn = document.getElementById('result-cta-hero');
+  heroBtn.href = mainData.url;
+  heroBtn.target = '_blank';
+
+  // Tier strip
+  document.getElementById('strip-main-name').textContent      = `The ${results.main}`;
+  document.getElementById('strip-secondary-name').textContent = `The ${results.secondary}`;
+  document.getElementById('strip-shadow-name').textContent    = `The ${results.shadow}`;
+
+  // Chart
+  const chartEl = document.getElementById('chart-rows');
+  chartEl.innerHTML = '';
+  results.all.forEach(([archetype, score]) => {
+    const pct = Math.round((score / 4) * 100);
+    const isMain      = archetype === results.main;
+    const isSecondary = archetype === results.secondary;
+    const isShadow    = archetype === results.shadow;
+    const color = ARCHETYPE_DATA[archetype].color;
+
+    let badge = '';
+    if (isMain)      badge = '<span class="badge badge-main">Main</span>';
+    if (isSecondary) badge = '<span class="badge badge-second">Secondary</span>';
+    if (isShadow)    badge = '<span class="badge badge-shadow">Shadow</span>';
+
+    chartEl.insertAdjacentHTML('beforeend', `
+      <div class="chart-row">
+        <div class="chart-label ${isMain || isSecondary ? 'highlight' : ''}">
+          ${archetype}${badge}
+        </div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" data-pct="${pct}"
+               style="background: ${color}; width: 0%"></div>
+        </div>
+        <div class="chart-pct ${isMain || isSecondary ? 'highlight' : ''}">
+          ${pct}%
+        </div>
+      </div>
+    `);
+  });
+
+  // CTA
+  document.getElementById('cta-headline').textContent =
+    `${firstName ? firstName + ', your' : 'Your'} brand is the ${results.main}. Now let's make it visible.`;
+  const ctaBtn = document.getElementById('cta-explore-btn');
+  ctaBtn.href   = mainData.url;
+  ctaBtn.target = '_blank';
+
+  showScreen('screen-results');
+
+  // Animate bars after a tick
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.chart-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }, 200);
+  });
+}
+</script>
+</body>
+</html>
