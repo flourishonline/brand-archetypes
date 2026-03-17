@@ -1,7 +1,7 @@
 # Flourish Brand Archetype Quiz
 
 A fully self-contained quiz app with:
-- Landing page
+- Landing page 
 - 12-question quiz
 - ActiveCampaign opt-in with archetype tagging
 - Results page with percentage breakdown + links to archetype pages
