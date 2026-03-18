@@ -2,9 +2,9 @@
  * /api/subscribe.js
  * Vercel serverless function — ActiveCampaign integration
  *
- * Required environment variables (Vercel dashboard → Settings → Environment Variables):
+ * Required environment variables (Vercel → Settings → Environment Variables):
  *   AC_API_URL   e.g. https://youraccountname.api-activecampaign.com
- *   AC_API_KEY   your ActiveCampaign API key (AC → Settings → Developer)
+ *   AC_API_KEY   your AC API key (AC → Settings → Developer)
  *
  * Tags applied per submission:
  *   BAQ_Main_[Archetype]       e.g. BAQ_Main_Nurturer
@@ -51,7 +51,7 @@ module.exports = async function handler(req, res) {
     if (!syncRes.ok) {
       const text = await syncRes.text();
       console.error('AC sync failed:', syncRes.status, text);
-      return res.status(500).json({ error: 'Failed to sync contact with ActiveCampaign' });
+      return res.status(500).json({ error: 'Failed to sync contact' });
     }
 
     const syncData = await syncRes.json();
@@ -64,9 +64,9 @@ module.exports = async function handler(req, res) {
       `BAQ_Secondary_${(secondaryArchetype || '').replace(/\s+/g, '_')}`,
       `BAQ_Shadow_${(shadowArchetype || '').replace(/\s+/g, '_')}`,
       'BAQ_QuizComplete',
-    ].filter(t => t.length > 4); // guard against empty archetype names
+    ].filter(t => t.length > 4);
 
-    // 3. Apply each tag
+    // 3. Apply each tag (create if needed)
     for (const tagName of tags) {
       const tagId = await getOrCreateTag(base, headers, tagName);
       if (tagId) await applyTag(base, headers, contactId, tagId);
@@ -75,33 +75,28 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ success: true, contactId, tags });
 
   } catch (err) {
-    console.error('subscribe handler error:', err);
+    console.error('subscribe error:', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
 
 async function getOrCreateTag(base, headers, tagName) {
-  // Try to find existing tag
   const search = await fetch(`${base}/api/3/tags?search=${encodeURIComponent(tagName)}`, { headers });
   if (search.ok) {
     const data = await search.json();
     const found = (data.tags || []).find(t => t.tag === tagName);
     if (found) return found.id;
   }
-
-  // Create new tag
   const create = await fetch(`${base}/api/3/tags`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ tag: { tag: tagName, tagType: 'contact', description: `Flourish Brand Archetype Quiz — ${tagName}` } })
   });
-
   if (create.ok) {
     const data = await create.json();
     return data.tag?.id || null;
   }
-
-  console.error('Failed to create tag:', tagName, create.status);
+  console.error('Failed to create tag:', tagName);
   return null;
 }
 
@@ -111,7 +106,6 @@ async function applyTag(base, headers, contactId, tagId) {
     headers,
     body: JSON.stringify({ contactTag: { contact: contactId, tag: tagId } })
   });
-  // 422 = already applied, that's fine
   if (!res.ok && res.status !== 422) {
     console.error(`Failed to apply tag ${tagId} to contact ${contactId}:`, res.status);
   }
