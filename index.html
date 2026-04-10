@@ -45,28 +45,36 @@
 
     /* ── LANDING ── */
     #screen-landing { flex-direction: column; }
-    .landing-nav { padding: 1.25rem 2.5rem; display: flex; align-items: center; justify-content: space-between; background: var(--ink); }
-    .landing-hero { flex: 1; display: grid; grid-template-columns: 1fr 1fr; }
+    .landing-nav { padding: 1.25rem 2.5rem; display: flex; align-items: center; justify-content: space-between; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
 
-    .hero-left { background: var(--red); padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
-    .hero-left::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: rgba(0,0,0,0.08); pointer-events: none; }
-    .hero-eyebrow { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem; }
-    .hero-headline { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 4.2vw, 4.2rem); font-weight: 700; line-height: 1.05; color: var(--white); margin-bottom: 1.5rem; }
-    .hero-headline em { font-style: italic; font-weight: 400; }
-    .hero-body { font-size: 1rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,0.88); max-width: 420px; margin-bottom: 2.5rem; }
-    .hero-meta { display: flex; gap: 2.5rem; margin-top: 2.5rem; }
-    .hero-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
-    .hero-meta-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--white); line-height: 1; }
-    .hero-meta-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    /* Hero — dark photo fading into pink */
+    .landing-hero { position: relative; text-align: center; overflow: hidden; }
+    .landing-hero-bg { position: absolute; inset: 0; background: url('assets/disco-hero.jpg') center top / cover no-repeat, linear-gradient(to bottom, #2a0a1e 0%, #1a0515 50%, var(--red) 100%); }
+    .landing-hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.15) 30%, var(--red) 65%); }
+    .landing-hero-content { position: relative; z-index: 2; padding: 8rem 2rem 4rem; display: flex; flex-direction: column; align-items: center; }
+    .hero-eyebrow { font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); margin-bottom: 2rem; }
+    .hero-cards-img { max-width: 600px; width: 80%; margin: 0 auto 2rem; }
+    .hero-headline { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.0; color: var(--white); margin-bottom: 1.5rem; text-transform: uppercase; font-style: italic; }
+    .hero-body { font-size: 0.75rem; font-weight: 700; line-height: 1.7; color: var(--white); max-width: 600px; margin: 0 auto 1rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-body-italic { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 400; font-style: italic; color: var(--white); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.5; }
+    .btn-dark { background: var(--ink); color: var(--white); font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.3rem 3rem; border: none; cursor: pointer; transition: all 0.2s; border-radius: 0; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-dark:hover { background: #000; }
 
-    .hero-right { background: var(--cream); padding: 5rem 4rem; display: flex; flex-direction: column; justify-content: center; }
-    .hero-right-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 2rem; }
-    .tier-list { display: flex; flex-direction: column; margin-bottom: 3rem; }
-    .tier-item { padding: 1.4rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 1.25rem; }
-    .tier-item:first-child { border-top: 1px solid var(--border); }
-    .tier-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1; min-width: 1.5rem; }
-    .tier-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.3rem; }
-    .tier-desc { font-size: 0.9rem; font-weight: 300; color: var(--warm); line-height: 1.55; }
+    /* Full-width photo strip */
+    .landing-photo { width: 100%; }
+    .landing-photo img { width: 100%; display: block; object-fit: cover; max-height: 600px; }
+
+    /* Before you start section */
+    .before-section { background: var(--pale); padding: 0 2rem 5rem; overflow: hidden; }
+    .before-marquee { padding: 3rem 0; overflow: hidden; white-space: nowrap; }
+    .before-marquee-track { display: flex; animation: marqueeScroll 20s linear infinite; }
+    .before-marquee-text { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; font-style: italic; color: var(--red); white-space: nowrap; padding-right: 2rem; flex-shrink: 0; }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .before-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; }
+    .before-card-img { max-width: 320px; width: 100%; margin: 0 auto; filter: drop-shadow(0 12px 40px rgba(0,0,0,0.12)); }
+    .before-tip { margin-bottom: 2rem; }
+    .before-tip-title { font-family: 'Jost', sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 0.4rem; }
+    .before-tip-body { font-size: 0.95rem; font-weight: 300; color: var(--warm); line-height: 1.6; }
 
     /* ── QUIZ ── */
     #screen-quiz { flex-direction: column; }
@@ -156,8 +164,10 @@
     .btn-ghost:hover { border-color: white; color: white; }
 
     @media (max-width: 900px) {
-      .landing-hero { grid-template-columns: 1fr; }
-      .hero-left, .hero-right { padding: 3rem 2rem; }
+      .landing-hero-content { padding: 6rem 1.5rem 3rem; }
+      .hero-cards-img { width: 95%; }
+      .before-content { grid-template-columns: 1fr; gap: 2rem; }
+      .before-card-img { max-width: 240px; }
       .tier-strip { grid-template-columns: 1fr; }
       .chart-row { grid-template-columns: 110px 1fr 3rem; }
       .results-body { padding: 2rem 1.5rem 4rem; }
@@ -172,28 +182,53 @@
 <!-- LANDING -->
 <section id="screen-landing" class="screen active">
   <nav class="landing-nav">
-    <a href="https://flourishonline.com.au"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
+    <a href="https://flourishonline.com"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
   </nav>
+
+  <!-- Hero: dark photo fading to pink -->
   <div class="landing-hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">The Brand Archetype Quiz</p>
-      <h1 class="hero-headline">Who is your<br/>brand, <em>really?</em></h1>
-      <p class="hero-body">Twelve questions. Three minutes. And you'll finally have language for the thing that's been making your brand feel off — or making it click.</p>
-      <button class="btn btn-primary" onclick="startQuiz()" style="align-self:flex-start">Start the quiz →</button>
-      <div class="hero-meta">
-        <div class="hero-meta-item"><span class="hero-meta-num">12</span><span class="hero-meta-label">questions</span></div>
-        <div class="hero-meta-item"><span class="hero-meta-num">3</span><span class="hero-meta-label">results</span></div>
-        <div class="hero-meta-item"><span class="hero-meta-num">~3</span><span class="hero-meta-label">minutes</span></div>
+    <div class="landing-hero-bg"></div>
+    <div class="landing-hero-content">
+      <p class="hero-eyebrow">Discover your unique brand archetype</p>
+      <img src="assets/cards-hero.webp" alt="Brand Archetype Cards" class="hero-cards-img" />
+      <h1 class="hero-headline">And unlock<br/>your brand's<br/>superpower</h1>
+      <p class="hero-body">Take our internet-famous 2-minute quiz to unleash your inner superstar and claim the A-list X-factor that'll help you magnetise an adoring fanbase.</p>
+      <p class="hero-body-italic">(+ Get a Personalised Action Plan to Step Into the Spotlight with a Rockstar Brand Archetype that Feels Uniquely You)</p>
+      <button class="btn-dark" onclick="startQuiz()">Yes! Unlock my superpower!</button>
+    </div>
+  </div>
+
+  <!-- Before you start -->
+  <div class="before-section">
+    <div class="before-marquee">
+      <div class="before-marquee-track">
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
       </div>
     </div>
-    <div class="hero-right">
-      <p class="hero-right-label">What you'll discover</p>
-      <div class="tier-list">
-        <div class="tier-item"><span class="tier-num">1</span><div><div class="tier-title">Your Main Archetype</div><div class="tier-desc">Your dominant brand energy — the through-line of everything you do.</div></div></div>
-        <div class="tier-item"><span class="tier-num">2</span><div><div class="tier-title">Your Secondary Archetype</div><div class="tier-desc">The supporting energy that makes you distinct within your main.</div></div></div>
-        <div class="tier-item"><span class="tier-num">3</span><div><div class="tier-title">Your Shadow Archetype</div><div class="tier-desc">The energy you suppress most — and your biggest hidden brand potential.</div></div></div>
+    <div class="before-content">
+      <div><img src="assets/card-alchemist.webp" alt="The Alchemist archetype card" class="before-card-img" /></div>
+      <div class="before-tips">
+        <div class="before-tip">
+          <p class="before-tip-title">&#x1F919; Don't overthink things</p>
+          <p class="before-tip-body">Go with your instinct, your gut, your tingling spidey-sense.</p>
+        </div>
+        <div class="before-tip">
+          <p class="before-tip-title">&#x1F60E; If more than one answer applies...</p>
+          <p class="before-tip-body">choose the one that seems MOST applicable.</p>
+        </div>
+        <div class="before-tip">
+          <p class="before-tip-title">&#x1F6AB; Don't try and guess the 'right' answer</p>
+          <p class="before-tip-body">or the one you think you "should" pick... be as honest with yourself as possible (that's how you'll get the best results).</p>
+        </div>
+        <button class="btn-dark" onclick="startQuiz()">Take the quiz</button>
       </div>
-      <button class="btn btn-primary" onclick="startQuiz()">Take the quiz — it's free →</button>
     </div>
   </div>
 </section>
