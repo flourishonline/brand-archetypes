@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brand Archetype Quiz — Flourish Online</title>
+  <title>Brand Archetype Quiz - Flourish Online</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -11,15 +11,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --red:       #FF00BF;   /* Hot pink/magenta — primary */
-      --red-hover: #D4009E;   /* Deeper pink — button hover */
+      --red:       #FF00BF;   /* Hot pink/magenta - primary */
+      --red-hover: #D4009E;   /* Deeper pink - button hover */
       --red-light: #FFE0F5;   /* Light pink tint for selection bg */
-      --ink:       #1A1A1A;   /* Near-black — headings & body */
-      --berry:     #720730;   /* Dark Berry — accents */
+      --ink:       #1A1A1A;   /* Near-black - headings & body */
+      --berry:     #720730;   /* Dark Berry - accents */
       --warm:      #3D3D3D;   /* Dark grey for body text */
       --mid:       #6A6A6A;   /* Muted label colour */
-      --pale:      #EDE8DF;   /* Cream — page background */
-      --cream:     #F5F1EA;   /* Lighter cream — cards */
+      --pale:      #EDE8DF;   /* Cream - page background */
+      --cream:     #F5F1EA;   /* Lighter cream - cards */
       --white:     #FFFFFF;
       --border:    #D9D1C3;   /* Warm border */
     }
@@ -30,12 +30,12 @@
     .screen { display: none; min-height: 100vh; }
     .screen.active { display: flex; flex-direction: column; }
 
-    /* Logo image — used in navbars */
+    /* Logo image - used in navbars */
     .logo-img { height: 52px; width: auto; display: block; }
     /* Fallback text logo */
     .logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); text-decoration: none; }
 
-    /* Buttons — rectangular, no radius, Futura-style tracking */
+    /* Buttons - rectangular, no radius, Futura-style tracking */
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'Jost', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.1rem 2.75rem; border: none; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; text-decoration: none; border-radius: 0; }
     .btn-primary { background: var(--red); color: var(--white); }
     .btn-primary:hover { background: var(--red-hover); transform: translateY(-1px); }
@@ -47,7 +47,7 @@
     #screen-landing { flex-direction: column; }
     .landing-nav { padding: 1.25rem 2.5rem; display: flex; align-items: center; justify-content: space-between; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
 
-    /* Hero — dark photo fading into pink */
+    /* Hero - dark photo fading into pink */
     .landing-hero { position: relative; text-align: center; overflow: hidden; }
     .landing-hero-bg { position: absolute; inset: 0; background: url('assets/disco-hero.jpg') center top / cover no-repeat, linear-gradient(to bottom, #2a0a1e 0%, #1a0515 50%, var(--red) 100%); }
     .landing-hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.15) 30%, var(--red) 65%); }
@@ -117,9 +117,10 @@
 
     /* ── RESULTS ── */
     #screen-results { flex-direction: column; }
-    .results-hero { background: var(--red); padding: 5rem 2.5rem 4rem; text-align: center; position: relative; overflow: hidden; }
-    .results-hero::before { content: ''; position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: rgba(0,0,0,0.08); }
-    .results-hero::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,0,191,0.25); }
+    .results-hero { background: #570022; padding: 5rem 2.5rem 4rem; text-align: center; position: relative; overflow: hidden; }
+    .results-hero::before { content: ''; position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: rgba(255,0,191,0.1); }
+    .results-hero::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,0,191,0.12); }
+    .results-logo { width: 120px; margin: 0 auto 2rem; position: relative; z-index: 1; display: block; }
     .results-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.75rem; position: relative; z-index: 1; }
     .results-main-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; position: relative; z-index: 1; }
     .results-archetype-name { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 1rem; position: relative; z-index: 1; }
@@ -151,7 +152,7 @@
 
     .results-note { font-size: 0.825rem; color: var(--mid); line-height: 1.65; margin-bottom: 2rem; }
 
-    .results-cta { background: var(--ink); padding: 4rem 3.5rem; text-align: center; }
+    .results-cta { background: #570022; padding: 4rem 3.5rem; text-align: center; }
     .results-cta-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.75rem; }
     .results-cta-headline { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--white); margin-bottom: 0.75rem; line-height: 1.2; }
     .results-cta-body { font-size: 0.9375rem; font-weight: 300; color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
@@ -283,7 +284,7 @@
   <div class="optin-card">
     <p class="optin-eyebrow">You're done ✓</p>
     <h2 class="optin-headline">Where should we send your results?</h2>
-    <p class="optin-body">Enter your details below to see your full archetype breakdown — including your main, secondary, and shadow archetypes, and what they mean for your brand.</p>
+    <p class="optin-body">Enter your details below to see your full archetype breakdown - including your main, secondary, and shadow archetypes, and what they mean for your brand.</p>
     <div class="field"><label for="fn">First name</label><input type="text" id="fn" placeholder="Your first name" autocomplete="given-name"/></div>
     <div class="field"><label for="em">Email address</label><input type="email" id="em" placeholder="you@example.com" autocomplete="email"/></div>
     <div style="margin-top:1.5rem">
@@ -298,26 +299,27 @@
 <!-- RESULTS -->
 <section id="screen-results" class="screen">
   <div class="results-hero">
+    <img src="assets/logo-stacked-pink.png" alt="Flourish Online" class="results-logo">
     <p class="results-eyebrow">Your Brand Archetype Results</p>
     <p class="results-main-label">Your main archetype is</p>
-    <h1 class="results-archetype-name" id="r-name">—</h1>
-    <p class="results-tagline" id="r-tagline">—</p>
+    <h1 class="results-archetype-name" id="r-name">-</h1>
+    <p class="results-tagline" id="r-tagline">-</p>
     <a href="#" id="r-hero-btn" class="results-hero-btn" target="_blank">Explore your full archetype profile →</a>
   </div>
   <div class="results-body">
     <div class="tier-strip">
-      <div class="tier-strip-item main"><div class="tier-strip-label">Main Archetype</div><div class="tier-strip-name" id="s-main">—</div><div class="tier-strip-desc">Your dominant brand energy — the through-line of everything.</div></div>
-      <div class="tier-strip-item"><div class="tier-strip-label">Secondary Archetype</div><div class="tier-strip-name" id="s-sec">—</div><div class="tier-strip-desc">Your signature flavour — what makes you distinct within your main.</div></div>
-      <div class="tier-strip-item"><div class="tier-strip-label">Shadow Archetype</div><div class="tier-strip-name" id="s-shad">—</div><div class="tier-strip-desc">The energy you wish came more naturally — your aspirational edge and greatest growth potential.</div></div>
+      <div class="tier-strip-item main"><div class="tier-strip-label">Main Archetype</div><div class="tier-strip-name" id="s-main">-</div><div class="tier-strip-desc">Your dominant brand energy - the through-line of everything.</div></div>
+      <div class="tier-strip-item"><div class="tier-strip-label">Secondary Archetype</div><div class="tier-strip-name" id="s-sec">-</div><div class="tier-strip-desc">Your signature flavour - what makes you distinct within your main.</div></div>
+      <div class="tier-strip-item"><div class="tier-strip-label">Shadow Archetype</div><div class="tier-strip-name" id="s-shad">-</div><div class="tier-strip-desc">The energy you wish came more naturally - your aspirational edge and greatest growth potential.</div></div>
     </div>
     <div class="chart-section-title">Your full archetype breakdown</div>
     <div id="chart"></div>
-    <p class="results-note" style="margin-top:2rem"><strong style="color:var(--ink)">Understanding your three archetypes:</strong><br/>Your <em>main</em> archetype is your brand's dominant energy — lean into it. Your <em>secondary</em> is the flavour that makes you unique within your category. Your <em>shadow</em> is the energy you most wish came naturally — the aspirational edge you're drawn to in others. It's not a weakness, it's your next frontier.</p>
+    <p class="results-note" style="margin-top:2rem"><strong style="color:var(--ink)">Understanding your three archetypes:</strong><br/>Your <em>main</em> archetype is your brand's dominant energy - lean into it. Your <em>secondary</em> is the flavour that makes you unique within your category. Your <em>shadow</em> is the energy you most wish came naturally - the aspirational edge you're drawn to in others. It's not a weakness, it's your next frontier.</p>
   </div>
   <div class="results-cta">
     <p class="results-cta-eyebrow">Your brand finally has a name. Now let's build it.</p>
     <h2 class="results-cta-headline" id="r-cta-head">Dive deeper into your archetype.</h2>
-    <p class="results-cta-body">Your archetype is a strategic asset — but only if your visual brand, website, and messaging actually reflect it. Let's fix the gap between your expertise and your market presence.</p>
+    <p class="results-cta-body">Your archetype is a strategic asset - but only if your visual brand, website, and messaging actually reflect it. Let's fix the gap between your expertise and your market presence.</p>
     <div class="cta-buttons">
       <a href="#" id="r-cta-btn" class="btn-cta" target="_blank">Explore my archetype in full →</a>
       <a href="https://flourishonline.com.au/services" class="btn-ghost" target="_blank">Work with Flourish</a>
@@ -330,11 +332,11 @@ const QUESTIONS = [
   { text: "You sit down to create content. What flows most naturally?", answers: [
     { text: "A heartfelt story about a client's breakthrough or healing journey", a: "Nurturer" },
     { text: "A bold take that challenges what your industry keeps getting wrong", a: "Badass" },
-    { text: "A meaty framework — something that actually teaches people something real", a: "Sage" },
+    { text: "A meaty framework - something that actually teaches people something real", a: "Sage" },
     { text: "Something visually striking where the beauty does half the work", a: "Creatress" }]},
   { text: "You're at a networking event. What does your energy look like?", answers: [
     { text: "You find the person who looks like they don't know anyone and go to them first", a: "Girl Next Door" },
-    { text: "You're calibrating the room — you know exactly who you want to connect with", a: "Queen" },
+    { text: "You're calibrating the room - you know exactly who you want to connect with", a: "Queen" },
     { text: "You've made three people laugh within the first fifteen minutes", a: "Mischief Maker" },
     { text: "You're planning your escape to somewhere more interesting", a: "Adventuress" }]},
   { text: "A client says \"you completely changed my life.\" What actually happened?", answers: [
@@ -349,39 +351,39 @@ const QUESTIONS = [
     { text: '"Irreverent."', a: "Mischief Maker" }]},
   { text: "Your most energising day in business looks like…", answers: [
     { text: "Deep client sessions where real breakthroughs happen in real time", a: "Nurturer" },
-    { text: "Being completely lost in creation — writing, designing, making something", a: "Creatress" },
-    { text: "Strategic work — moving your vision forward, leading, building something bigger", a: "Queen" },
+    { text: "Being completely lost in creation - writing, designing, making something", a: "Creatress" },
+    { text: "Strategic work - moving your vision forward, leading, building something bigger", a: "Queen" },
     { text: "Something completely unexpected that takes you somewhere new", a: "Adventuress" }]},
   { text: "A peer asks for your honest feedback on their work. You…", answers: [
     { text: "Anchor on the genuine strengths before gently naming what's not working", a: "Pure Heart" },
-    { text: "Tell them the truth directly — the kindest thing you can do is be honest", a: "Badass" },
+    { text: "Tell them the truth directly - the kindest thing you can do is be honest", a: "Badass" },
     { text: "Ask questions that help them work it out themselves", a: "Sage" },
     { text: "Completely reframe the problem in a way they hadn't seen before", a: "Alchemist" }]},
   { text: "Your relationship with your industry's 'rules':", answers: [
-    { text: "You follow them — trust is built through reliability and consistency", a: "Pure Heart" },
+    { text: "You follow them - trust is built through reliability and consistency", a: "Pure Heart" },
     { text: "You've studied them long enough to know exactly when they apply", a: "Sage" },
     { text: "You're here to lead the conversation, not join it", a: "Queen" },
     { text: "The rules were written before you arrived", a: "Badass" }]},
   { text: "Your content is resonating. What are people responding to?", answers: [
-    { text: "How seen they feel — like you reached inside and named something they couldn't", a: "Lover" },
-    { text: "Your humour — they're tagging their friends and screenshotting your posts", a: "Mischief Maker" },
-    { text: "Your consistency — you're the person they know will always show up", a: "Pure Heart" },
-    { text: "Your nerve — you said the thing they were thinking but didn't dare say", a: "Heroine" }]},
+    { text: "How seen they feel - like you reached inside and named something they couldn't", a: "Lover" },
+    { text: "Your humour - they're tagging their friends and screenshotting your posts", a: "Mischief Maker" },
+    { text: "Your consistency - you're the person they know will always show up", a: "Pure Heart" },
+    { text: "Your nerve - you said the thing they were thinking but didn't dare say", a: "Heroine" }]},
   { text: "You're designing a new offer. What's your first instinct?", answers: [
-    { text: "The transformation — what will their life actually feel like after?", a: "Alchemist" },
-    { text: "The container — how do I make this feel genuinely safe and supported?", a: "Nurturer" },
-    { text: "The aesthetics — how does this look, feel, live, breathe?", a: "Creatress" },
-    { text: "The gap — what is no one else offering that my people desperately need?", a: "Adventuress" }]},
+    { text: "The transformation - what will their life actually feel like after?", a: "Alchemist" },
+    { text: "The container - how do I make this feel genuinely safe and supported?", a: "Nurturer" },
+    { text: "The aesthetics - how does this look, feel, live, breathe?", a: "Creatress" },
+    { text: "The gap - what is no one else offering that my people desperately need?", a: "Adventuress" }]},
   { text: "What do you want your legacy to be?", answers: [
     { text: '"She made me feel less alone."', a: "Lover" },
     { text: '"She built something that outlasted her."', a: "Queen" },
     { text: '"She was just so real. You always knew where you stood."', a: "Girl Next Door" },
     { text: '"She showed me what I didn\'t know was possible."', a: "Adventuress" }]},
   { text: "Your relationship with the spotlight:", answers: [
-    { text: "It finds you because your conviction is magnetic — you're built for it", a: "Heroine" },
-    { text: "You've earned it — recognition is a natural byproduct of mastery", a: "Sage" },
+    { text: "It finds you because your conviction is magnetic - you're built for it", a: "Heroine" },
+    { text: "You've earned it - recognition is a natural byproduct of mastery", a: "Sage" },
     { text: "You'd rather be behind the work than in front of it", a: "Creatress" },
-    { text: "You attract it by accident — usually by saying something outrageous", a: "Mischief Maker" }]},
+    { text: "You attract it by accident - usually by saying something outrageous", a: "Mischief Maker" }]},
   { text: "Your business philosophy, in one sentence:", answers: [
     { text: '"Do good work. Be a good human. It\'s really not that complicated."', a: "Pure Heart" },
     { text: '"If it doesn\'t move me first, it won\'t move them."', a: "Lover" },
@@ -401,7 +403,7 @@ const ARCHETYPES = {
   'Nurturer':       { color: '#3A5E60', url: 'https://flourishonline.com/quiz/brand-archetype-nurturer',       tagline: "You create the kind of safety that most people have been looking for their whole lives." },
   'Pure Heart':     { color: '#9E6B7A', url: 'https://flourishonline.com/quiz/brand-archetype-pure-heart',     tagline: "In a world of performance and polish, you're just genuinely, quietly excellent. That's everything." },
   'Queen':          { color: '#4A1528', url: 'https://flourishonline.com/quiz/brand-archetype-queen',          tagline: "You don't just take up space. You change what a space is capable of." },
-  'Sage':           { color: '#D4456B', url: 'https://flourishonline.com/quiz/brand-archetype-sage',           tagline: "You don't just know things. You understand them — and that changes everything." }
+  'Sage':           { color: '#D4456B', url: 'https://flourishonline.com/quiz/brand-archetype-sage',           tagline: "You don't just know things. You understand them - and that changes everything." }
 };
 
 let currentQ = 0;
@@ -513,35 +515,35 @@ function showTiebreaker(tied) {
   showScreen('screen-tiebreaker');
 }
 
-// Main tiebreaker — identity-level: who you ARE at your core
+// Main tiebreaker - identity-level: who you ARE at your core
 const TIEBREAKER_STATEMENTS = {
-  'Adventuress':    "You're most alive when you're in unfamiliar territory — a new idea, a new place, a problem no one's solved yet.",
-  'Alchemist':      "You see the highest version of people before they can — and you can't look away until you've helped them get there.",
+  'Adventuress':    "You're most alive when you're in unfamiliar territory - a new idea, a new place, a problem no one's solved yet.",
+  'Alchemist':      "You see the highest version of people before they can - and you can't look away until you've helped them get there.",
   'Badass':         "You'd rather lose a client than compromise what you know to be true. The hard thing is almost always the right thing.",
   'Creatress':      "The gap between good and exceptional matters to you in a way most people genuinely can't understand.",
-  'Girl Next Door': "You're the same person in a boardroom as you are at brunch — and people trust you because of it, not in spite of it.",
+  'Girl Next Door': "You're the same person in a boardroom as you are at brunch - and people trust you because of it, not in spite of it.",
   'Heroine':        "You don't just survive hard things. You use them. Every setback becomes the next part of the story you share.",
-  'Lover':          "You create from a place of deep feeling — and people don't just understand your work, they feel it in their chest.",
-  'Mischief Maker': "You can make someone laugh at exactly the moment it matters most — and that's when the real shift happens.",
-  'Nurturer':       "People exhale when they're around you. The safety you create isn't a strategy — it's just who you are.",
-  'Pure Heart':     "You do what you say you'll do, every time, without needing to be noticed for it. Integrity isn't a value for you — it's a reflex.",
-  'Queen':          "You raise the standard of every room you walk into. Not because you try to — because you can't help it.",
-  'Sage':           "You've never been able to just accept something at face value. You need to understand it — properly — before you can move on."
+  'Lover':          "You create from a place of deep feeling - and people don't just understand your work, they feel it in their chest.",
+  'Mischief Maker': "You can make someone laugh at exactly the moment it matters most - and that's when the real shift happens.",
+  'Nurturer':       "People exhale when they're around you. The safety you create isn't a strategy - it's just who you are.",
+  'Pure Heart':     "You do what you say you'll do, every time, without needing to be noticed for it. Integrity isn't a value for you - it's a reflex.",
+  'Queen':          "You raise the standard of every room you walk into. Not because you try to - because you can't help it.",
+  'Sage':           "You've never been able to just accept something at face value. You need to understand it - properly - before you can move on."
 };
 
-// Secondary tiebreaker — brand expression: how you show up in your work
+// Secondary tiebreaker - brand expression: how you show up in your work
 const TIEBREAKER_STATEMENTS_SECONDARY = {
-  'Adventuress':    "Your best work happens when you're doing something that hasn't been done before — and you're willing to fail publicly to get there.",
+  'Adventuress':    "Your best work happens when you're doing something that hasn't been done before - and you're willing to fail publicly to get there.",
   'Alchemist':      "You're not satisfied with helping people improve. You want to fundamentally change how they see themselves and what they think is possible.",
   'Badass':         "The thing that makes you different is that you'll say publicly what most people in your industry only say in private.",
-  'Creatress':      "The way something looks, sounds, and feels is never an afterthought for you — it's as important as what it actually does.",
-  'Girl Next Door': "Your audience feels like they know you — really know you — and that familiarity is the reason they trust your recommendations.",
+  'Creatress':      "The way something looks, sounds, and feels is never an afterthought for you - it's as important as what it actually does.",
+  'Girl Next Door': "Your audience feels like they know you - really know you - and that familiarity is the reason they trust your recommendations.",
   'Heroine':        "You share the hard parts of your journey because you know that's what actually gives other people permission to keep going.",
-  'Lover':          "The relationships you build with clients go deeper than most — people don't just remember what you helped them do, they remember how you made them feel.",
+  'Lover':          "The relationships you build with clients go deeper than most - people don't just remember what you helped them do, they remember how you made them feel.",
   'Mischief Maker': "You'd rather make people feel something unexpected than give them exactly what they came for.",
   'Nurturer':       "You put more thought into how supported clients feel than almost any other part of the experience.",
-  'Pure Heart':     "Your reputation is built on the fact that you never oversell and always overdeliver — and people tell others that.",
-  'Queen':          "Everything about your brand signals premium — not because you're trying to, but because you genuinely won't tolerate mediocrity.",
+  'Pure Heart':     "Your reputation is built on the fact that you never oversell and always overdeliver - and people tell others that.",
+  'Queen':          "Everything about your brand signals premium - not because you're trying to, but because you genuinely won't tolerate mediocrity.",
   'Sage':           "People come to you when they've already tried the surface-level stuff. They know you'll give them the real answer."
 };
 
@@ -558,8 +560,8 @@ function renderTiebreaker() {
     : 'When it comes to how you actually work with clients, which of these sounds most like you?';
 
   const intro = isMain
-    ? `You're genuinely a combination of ${candidates.length} archetypes — which means we need one more question to find your strongest one.`
-    : `You have equal energy across ${candidates.length} archetypes in your secondary position. This question looks at how you show up in practice — not just who you are, but how you work.`;
+    ? `You're genuinely a combination of ${candidates.length} archetypes - which means we need one more question to find your strongest one.`
+    : `You have equal energy across ${candidates.length} archetypes in your secondary position. This question looks at how you show up in practice - not just who you are, but how you work.`;
 
   card.innerHTML = `
     <div class="question-num" style="font-size:2rem;opacity:0.15">✦</div>
@@ -621,18 +623,18 @@ function nextTiebreaker() {
 // ── SHADOW DISCOVERY ──────────────────────────────────────────────────────────
 // Shadow descriptions: the aspirational version of each archetype energy
 const SHADOW_WISHES = {
-  'Adventuress':    "Taking a leap without knowing where you'll land — and trusting yourself to figure it out when you get there.",
+  'Adventuress':    "Taking a leap without knowing where you'll land - and trusting yourself to figure it out when you get there.",
   'Alchemist':      "Holding a vision for someone's transformation so clearly that they start to believe it's possible too.",
-  'Badass':         "Saying the hard thing without softening it — and watching people respect you more for it, not less.",
+  'Badass':         "Saying the hard thing without softening it - and watching people respect you more for it, not less.",
   'Creatress':      "Making something so considered, so beautiful, so distinctly yours that people immediately know it could only have come from you.",
-  'Girl Next Door': "Being completely yourself in every context — no performing, no adjusting — and having that be exactly enough.",
+  'Girl Next Door': "Being completely yourself in every context - no performing, no adjusting - and having that be exactly enough.",
   'Heroine':        "Going through the hardest thing and coming out the other side with a story that gives other people permission to keep going.",
   'Lover':          "Making people feel so deeply seen that they remember the experience of being with you long after the work is done.",
-  'Mischief Maker': "Walking into any room and making it lighter — turning tension into laughter and heavy things into something approachable.",
+  'Mischief Maker': "Walking into any room and making it lighter - turning tension into laughter and heavy things into something approachable.",
   'Nurturer':       "Creating a space so genuinely safe that people finally say the thing they haven't been able to say anywhere else.",
-  'Pure Heart':     "Being the person everyone points to when they talk about someone who just quietly does what they say — every single time.",
-  'Queen':          "Walking into a room and feeling the energy shift — not because you demanded it, but because you've earned it.",
-  'Sage':           "Saying something so precisely true that the room goes quiet — and people feel genuinely smarter for having heard it.",
+  'Pure Heart':     "Being the person everyone points to when they talk about someone who just quietly does what they say - every single time.",
+  'Queen':          "Walking into a room and feeling the energy shift - not because you demanded it, but because you've earned it.",
+  'Sage':           "Saying something so precisely true that the room goes quiet - and people feel genuinely smarter for having heard it.",
 };
 
 let shadowAnswer = null;
@@ -661,9 +663,9 @@ function renderShadowQuestion(candidates) {
   const card = document.getElementById('shadow-card');
   card.innerHTML = `
     <div class="question-num" style="font-size:2rem;opacity:0.15">◈</div>
-    <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);margin-bottom:0.75rem">One last question — and it's a different kind</p>
+    <p style="font-size:0.75rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);margin-bottom:0.75rem">One last question - and it's a different kind</p>
     <div class="question-text">Which of these do you most wish came naturally to you?</div>
-    <p style="font-size:0.9rem;color:var(--warm);margin-bottom:2rem;font-weight:300;line-height:1.65">Not how you already show up — but the energy you find yourself watching in others, quietly wishing you could embody it more.</p>
+    <p style="font-size:0.9rem;color:var(--warm);margin-bottom:2rem;font-weight:300;line-height:1.65">Not how you already show up - but the energy you find yourself watching in others, quietly wishing you could embody it more.</p>
     <div class="answers">
       ${candidates.map((arch, i) => `
         <button class="answer-btn" onclick="pickShadow('${arch.replace(/'/g,"\\'")}', this)">
