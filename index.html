@@ -742,7 +742,7 @@ async function submitOptin() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ firstName, email, mainArchetype: results.main, secondaryArchetype: results.secondary, shadowArchetype: results.shadow, scores })
     });
-  } catch(e) { console.warn('AC call failed (will still show results):', e.message); }
+  } catch(e) { console.warn('Quiz save failed (will still show results):', e.message); }
 
   spinEl.classList.remove('visible');
   showResults(firstName, scores);
