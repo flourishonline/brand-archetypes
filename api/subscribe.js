@@ -1,17 +1,26 @@
 /**
  * /api/subscribe.js
- * Vercel serverless function — ActiveCampaign integration
+ * Vercel serverless function — sends quiz results to GoHighLevel (GHL).
  *
- * Required environment variables (Vercel → Settings → Environment Variables):
- *   AC_API_URL   e.g. https://youraccountname.api-activecampaign.com
- *   AC_API_KEY   your AC API key (AC → Settings → Developer)
+ * Environment variables (Vercel → Settings → Environment Variables):
+ *   GHL_API_TOKEN     Private Integration token from GHL
+ *                     (Settings → Private Integrations; scopes: contacts.write + contacts.readonly)
+ *   GHL_LOCATION_ID   GHL sub-account ID (defaults to Flourish Online's location)
  *
- * Tags applied per submission:
- *   BAQ_Main_[Archetype]       e.g. BAQ_Main_Nurturer
- *   BAQ_Secondary_[Archetype]  e.g. BAQ_Secondary_Alchemist
- *   BAQ_Shadow_[Archetype]     e.g. BAQ_Shadow_Queen
- *   BAQ_QuizComplete           always applied — use as automation trigger
+ * Fallback: if GHL_API_TOKEN is not set yet, the old ActiveCampaign path runs
+ * (AC_API_URL + AC_API_KEY), so deploying this before the token is added
+ * doesn't drop any quiz leads. Remove the AC env vars once GHL is live.
+ *
+ * Tags applied per submission (GHL stores tags lowercase):
+ *   BAQ_Main_[Archetype]       → baq_main_nurturer   (triggers the "FO | Quiz - <Archetype>" workflow)
+ *   BAQ_Secondary_[Archetype]  → baq_secondary_alchemist
+ *   BAQ_Shadow_[Archetype]     → baq_shadow_queen
+ *   BAQ_QuizComplete           → baq_quizcomplete
  */
+
+const GHL_BASE = 'https://services.leadconnectorhq.com';
+const GHL_VERSION = '2021-07-28';
+const DEFAULT_LOCATION_ID = '2lfc6CZkPM6jspSHFXiN';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,92 +30,121 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { AC_API_URL, AC_API_KEY } = process.env;
-
-  if (!AC_API_URL || !AC_API_KEY) {
-    console.error('Missing AC_API_URL or AC_API_KEY env vars');
-    return res.status(500).json({ error: 'Server configuration error' });
-  }
-
   const { firstName, email, mainArchetype, secondaryArchetype, shadowArchetype } = req.body || {};
 
   if (!email || !firstName) {
     return res.status(400).json({ error: 'firstName and email are required' });
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Api-Token': AC_API_KEY,
-  };
-  const base = AC_API_URL.replace(/\/$/, '');
+  const tags = buildTags(mainArchetype, secondaryArchetype, shadowArchetype);
 
   try {
-    // 1. Create or update contact
-    const syncRes = await fetch(`${base}/api/3/contact/sync`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ contact: { email, firstName } })
-    });
-
-    if (!syncRes.ok) {
-      const text = await syncRes.text();
-      console.error('AC sync failed:', syncRes.status, text);
-      return res.status(500).json({ error: 'Failed to sync contact' });
+    if (process.env.GHL_API_TOKEN) {
+      const contactId = await sendToGHL({ firstName, email, tags });
+      return res.status(200).json({ success: true, crm: 'ghl', contactId, tags });
     }
 
-    const syncData = await syncRes.json();
-    const contactId = syncData.contact?.id;
-    if (!contactId) return res.status(500).json({ error: 'No contact ID returned' });
-
-    // 2. Build tag list
-    const tags = [
-      `BAQ_Main_${(mainArchetype || '').replace(/\s+/g, '_')}`,
-      `BAQ_Secondary_${(secondaryArchetype || '').replace(/\s+/g, '_')}`,
-      `BAQ_Shadow_${(shadowArchetype || '').replace(/\s+/g, '_')}`,
-      'BAQ_QuizComplete',
-    ].filter(t => t.length > 4);
-
-    // 3. Apply each tag (create if needed)
-    for (const tagName of tags) {
-      const tagId = await getOrCreateTag(base, headers, tagName);
-      if (tagId) await applyTag(base, headers, contactId, tagId);
+    if (process.env.AC_API_URL && process.env.AC_API_KEY) {
+      const contactId = await sendToAC({ firstName, email, tags });
+      return res.status(200).json({ success: true, crm: 'activecampaign', contactId, tags });
     }
 
-    return res.status(200).json({ success: true, contactId, tags });
-
+    console.error('No CRM configured: set GHL_API_TOKEN (or AC_API_URL + AC_API_KEY)');
+    return res.status(500).json({ error: 'Server configuration error' });
   } catch (err) {
-    console.error('subscribe error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('subscribe error:', err.message);
+    return res.status(500).json({ error: 'Failed to save quiz result' });
   }
 };
 
-async function getOrCreateTag(base, headers, tagName) {
+function buildTags(main, secondary, shadow) {
+  const slug = (s) => (s || '').trim().replace(/\s+/g, '_');
+  return [
+    main && `BAQ_Main_${slug(main)}`,
+    secondary && `BAQ_Secondary_${slug(secondary)}`,
+    shadow && `BAQ_Shadow_${slug(shadow)}`,
+    'BAQ_QuizComplete',
+  ].filter(Boolean);
+}
+
+/* ---------- GoHighLevel ---------- */
+
+async function sendToGHL({ firstName, email, tags }) {
+  const headers = {
+    Authorization: `Bearer ${process.env.GHL_API_TOKEN}`,
+    Version: GHL_VERSION,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
+  const locationId = process.env.GHL_LOCATION_ID || DEFAULT_LOCATION_ID;
+
+  // 1. Create or update the contact (matched on email). Tags are added in a
+  //    separate call so existing tags on a returning contact are never replaced.
+  const upsertRes = await fetch(`${GHL_BASE}/contacts/upsert`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ locationId, email, firstName, source: 'Brand Archetype Quiz' }),
+  });
+  if (!upsertRes.ok) {
+    throw new Error(`GHL upsert failed: ${upsertRes.status} ${await upsertRes.text()}`);
+  }
+  const upsertData = await upsertRes.json();
+  const contactId = upsertData.contact?.id;
+  if (!contactId) throw new Error('GHL upsert returned no contact id');
+
+  // 2. Add the quiz tags (this fires the "Contact tag added" workflow triggers).
+  const tagRes = await fetch(`${GHL_BASE}/contacts/${contactId}/tags`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ tags }),
+  });
+  if (!tagRes.ok) {
+    throw new Error(`GHL add tags failed: ${tagRes.status} ${await tagRes.text()}`);
+  }
+
+  return contactId;
+}
+
+/* ---------- ActiveCampaign (fallback until GHL is live) ---------- */
+
+async function sendToAC({ firstName, email, tags }) {
+  const headers = { 'Content-Type': 'application/json', 'Api-Token': process.env.AC_API_KEY };
+  const base = process.env.AC_API_URL.replace(/\/$/, '');
+
+  const syncRes = await fetch(`${base}/api/3/contact/sync`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ contact: { email, firstName } }),
+  });
+  if (!syncRes.ok) throw new Error(`AC sync failed: ${syncRes.status} ${await syncRes.text()}`);
+  const contactId = (await syncRes.json()).contact?.id;
+  if (!contactId) throw new Error('AC sync returned no contact id');
+
+  for (const tagName of tags) {
+    const tagId = await getOrCreateACTag(base, headers, tagName);
+    if (!tagId) continue;
+    const r = await fetch(`${base}/api/3/contactTags`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ contactTag: { contact: contactId, tag: tagId } }),
+    });
+    if (!r.ok && r.status !== 422) console.error(`AC tag ${tagName} failed:`, r.status);
+  }
+  return contactId;
+}
+
+async function getOrCreateACTag(base, headers, tagName) {
   const search = await fetch(`${base}/api/3/tags?search=${encodeURIComponent(tagName)}`, { headers });
   if (search.ok) {
-    const data = await search.json();
-    const found = (data.tags || []).find(t => t.tag === tagName);
+    const found = ((await search.json()).tags || []).find((t) => t.tag === tagName);
     if (found) return found.id;
   }
   const create = await fetch(`${base}/api/3/tags`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ tag: { tag: tagName, tagType: 'contact', description: `Flourish Brand Archetype Quiz — ${tagName}` } })
+    body: JSON.stringify({ tag: { tag: tagName, tagType: 'contact', description: `Flourish Brand Archetype Quiz — ${tagName}` } }),
   });
-  if (create.ok) {
-    const data = await create.json();
-    return data.tag?.id || null;
-  }
-  console.error('Failed to create tag:', tagName);
+  if (create.ok) return (await create.json()).tag?.id || null;
+  console.error('AC tag create failed:', tagName);
   return null;
-}
-
-async function applyTag(base, headers, contactId, tagId) {
-  const res = await fetch(`${base}/api/3/contactTags`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ contactTag: { contact: contactId, tag: tagId } })
-  });
-  if (!res.ok && res.status !== 422) {
-    console.error(`Failed to apply tag ${tagId} to contact ${contactId}:`, res.status);
-  }
 }
