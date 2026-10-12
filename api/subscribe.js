@@ -15,7 +15,7 @@
  *   BAQ_Main_[Archetype]       → baq_main_nurturer   (triggers the "FO | Quiz - <Archetype>" workflow)
  *   BAQ_Secondary_[Archetype]  → baq_secondary_alchemist
  *   BAQ_Shadow_[Archetype]     → baq_shadow_queen
- *   BAQ_QuizComplete           → baq_quizcomplete
+ *   quiz-baq-taken             (GHL's name for AC's BAQ_QuizComplete / BAQuiz tags)
  */
 
 const GHL_BASE = 'https://services.leadconnectorhq.com';
@@ -93,10 +93,12 @@ async function sendToGHL({ firstName, email, tags }) {
   if (!contactId) throw new Error('GHL upsert returned no contact id');
 
   // 2. Add the quiz tags (this fires the "Contact tag added" workflow triggers).
+  //    BAQ_QuizComplete was merged into quiz-baq-taken during the migration.
+  const ghlTags = tags.map((t) => (t === 'BAQ_QuizComplete' ? 'quiz-baq-taken' : t));
   const tagRes = await fetch(`${GHL_BASE}/contacts/${contactId}/tags`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ tags }),
+    body: JSON.stringify({ tags: ghlTags }),
   });
   if (!tagRes.ok) {
     throw new Error(`GHL add tags failed: ${tagRes.status} ${await tagRes.text()}`);
