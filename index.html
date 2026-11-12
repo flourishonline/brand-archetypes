@@ -6,7 +6,7 @@
   <title>Brand Archetype Quiz - Flourish Online</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     @font-face { font-family: 'Eighties Comeback'; src: url('assets/fonts/EightiesComeback-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
     @font-face { font-family: 'Eighties Comeback'; src: url('assets/fonts/EightiesComeback-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
@@ -14,234 +14,309 @@
     @font-face { font-family: 'Eighties Comeback'; src: url('assets/fonts/EightiesComebackIt-Bold.otf') format('opentype'); font-weight: 700; font-style: italic; font-display: swap; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Flourish Online 2026 brand tokens (matched to flourishonline.com) */
     :root {
-      --red:       #FF00BF;   /* Hot pink/magenta - primary */
-      --red-hover: #D4009E;   /* Deeper pink - button hover */
-      --red-light: #FFE0F5;   /* Light pink tint for selection bg */
-      --ink:       #1A1A1A;   /* Near-black - headings & body */
-      --berry:     #720730;   /* Dark Berry - accents */
-      --warm:      #3D3D3D;   /* Dark grey for body text */
-      --mid:       #6A6A6A;   /* Muted label colour */
-      --pale:      #EDE8DF;   /* Cream - page background */
-      --cream:     #F5F1EA;   /* Lighter cream - cards */
+      --pink:      #FF3DD5;   /* primary accent */
+      --pink-dk:   #E21FBC;   /* hover */
+      --pink-lt:   #FFE3F8;   /* selection tint */
+      --ink:       #1B1513;   /* near-black: buttons, dark bands */
+      --oxblood:   #2D1717;   /* display headings on light/pink */
+      --maroon:    #570021;   /* deep accent bands */
+      --body:      #2D2C29;   /* body copy */
+      --mid:       #6E6660;   /* muted labels */
+      --cream:     #FAF5F0;   /* page background */
+      --cream-2:   #F3EBE3;   /* cards on cream */
       --white:     #FFFFFF;
-      --border:    #D9D1C3;   /* Warm border */
+      --border:    #E3D7CB;
+      /* legacy aliases used by quiz JS / inline styles */
+      --red: var(--pink); --red-hover: var(--pink-dk); --red-light: var(--pink-lt);
+      --warm: var(--body); --pale: var(--cream); --berry: var(--maroon);
+      --display: 'Eighties Comeback', 'Bodoni Moda', Georgia, serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
+      --ui: 'League Spartan', 'IBM Plex Sans', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: 'League Spartan', sans-serif; background: var(--pale); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--body); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; }
 
     .screen { display: none; min-height: 100vh; }
     .screen.active { display: flex; flex-direction: column; }
 
-    /* Logo image - used in navbars */
-    .logo-img { height: 52px; width: auto; display: block; }
-    /* Fallback text logo */
-    .logo { font-family: 'Eighties Comeback', serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); text-decoration: none; }
+    .logo-img { height: 40px; width: auto; display: block; }
 
-    /* Buttons - rectangular, no radius, Futura-style tracking */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'League Spartan', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.1rem 2.75rem; border: none; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease; text-decoration: none; border-radius: 0; }
-    .btn-primary { background: var(--red); color: var(--white); }
-    .btn-primary:hover { background: var(--red-hover); transform: translateY(-1px); }
-    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-    .btn-outline { background: transparent; color: var(--red); border: 2px solid var(--red); }
-    .btn-outline:hover { background: var(--red); color: var(--white); }
+    /* Buttons: square, League Spartan, tracked caps (as on flourishonline.com) */
+    .btn, .btn-dark, .btn-pink { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1; padding: 1.35rem 3rem; border: none; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease, color .2s; text-decoration: none; border-radius: 0; }
+    .btn-primary { background: var(--ink); color: var(--cream); }
+    .btn-primary:hover { background: var(--pink); color: var(--ink); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; background: var(--ink); color: var(--cream); }
+    .btn-outline { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+    .btn-outline:hover { background: var(--ink); color: var(--cream); }
+    .btn-dark { background: var(--ink); color: var(--cream); }
+    .btn-dark:hover { background: var(--maroon); transform: translateY(-1px); }
+    .btn-pink { background: var(--pink); color: var(--ink); }
+    .btn-pink:hover { background: var(--cream); }
 
-    /* ── LANDING ── */
-    #screen-landing { flex-direction: column; }
-    .landing-nav { padding: 1.25rem 2.5rem; display: flex; align-items: center; justify-content: space-between; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+    /* ── LANDING ───────────────────────────────────────────── */
+    #screen-landing { flex-direction: column; background: var(--cream); }
 
-    /* Hero - dark photo fading into pink */
-    .landing-hero { position: relative; text-align: center; overflow: hidden; }
-    .landing-hero-bg { position: absolute; inset: 0; background: url('assets/disco-hero.jpg') center top / cover no-repeat, linear-gradient(to bottom, #2a0a1e 0%, #1a0515 50%, var(--red) 100%); }
-    .landing-hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.15) 30%, var(--red) 65%); }
-    .landing-hero-content { position: relative; z-index: 2; padding: 8rem 2rem 4rem; display: flex; flex-direction: column; align-items: center; }
-    .hero-eyebrow { font-family: 'League Spartan', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--white); margin-bottom: 2rem; }
-    .hero-cards-img { max-width: 600px; width: 80%; margin: 0 auto 2rem; }
-    .hero-headline { font-family: 'Eighties Comeback', serif; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.0; color: var(--white); margin-bottom: 1.5rem; text-transform: uppercase; font-style: italic; }
-    .hero-body { font-size: 0.75rem; font-weight: 700; line-height: 1.7; color: var(--white); max-width: 600px; margin: 0 auto 1rem; letter-spacing: 0.12em; text-transform: uppercase; }
-    .hero-body-italic { font-family: 'Eighties Comeback', serif; font-size: 1rem; font-weight: 400; font-style: italic; color: var(--white); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.5; }
-    .btn-dark { background: var(--ink); color: var(--white); font-family: 'League Spartan', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.3rem 3rem; border: none; cursor: pointer; transition: all 0.2s; border-radius: 0; display: inline-flex; align-items: center; justify-content: center; }
-    .btn-dark:hover { background: #000; }
+    /* Hero: photo with archetype cards that spill into the pink band */
+    .lp-hero { position: relative; background: var(--pink); overflow: hidden; text-align: center; }
+    .lp-hero-photo { position: absolute; left: 0; right: 0; top: 0; height: clamp(360px, 44vw, 560px); background: url('assets/hero-bg.webp') center 30% / cover no-repeat; }
+    .lp-hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,61,213,0) 70%, rgba(255,61,213,.35) 100%); }
+    .lp-logo { position: relative; z-index: 9; display: inline-block; margin-top: 2.25rem; }
+    .lp-logo img { width: clamp(130px, 14vw, 183px); display: block; }
+    .lp-cards { position: relative; z-index: 4; width: min(944px, 86vw); margin: 1.25rem auto 0; aspect-ratio: 944 / 541; }
+    .lp-cards .cards { position: relative; z-index: 4; width: 100%; display: block; filter: drop-shadow(0 18px 30px rgba(27,21,19,.35)); }
+    .lp-cards .fl { position: absolute; z-index: 2; pointer-events: none; }
+    .lp-cards .fl-l { width: 83%; left: -7%; top: 0; }
+    .lp-cards .fl-r { width: 77%; right: -8%; top: 7%; transform: scaleX(-1); }
+    .lp-band { position: relative; z-index: 5; padding: 1rem 1.5rem 4.5rem; }
+    .lp-eyebrow { font-family: var(--sans); font-size: clamp(14px, 1.4vw, 18px); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--white); margin-bottom: .35rem; }
+    .lp-h1 { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(3rem, 7.4vw, 90px); line-height: .9; letter-spacing: -0.02em; text-transform: uppercase; color: var(--oxblood); max-width: 11.5ch; margin: 0 auto 1.4rem; }
+    .lp-sub { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 2px; line-height: 1.25; text-transform: uppercase; color: var(--white); max-width: 560px; margin: 0 auto 1.4rem; }
+    .lp-italic { font-family: var(--sans); font-style: italic; font-weight: 600; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.4; color: var(--white); max-width: 600px; margin: 0 auto 2.25rem; }
 
-    /* Full-width photo strip */
-    .landing-photo { width: 100%; }
-    .landing-photo img { width: 100%; display: block; object-fit: cover; max-height: 600px; }
+    /* Before you start */
+    .lp-before { position: relative; background: var(--cream); padding: 2rem 2rem 6rem; overflow: hidden; }
+    .lp-wave { position: absolute; left: 0; right: 0; top: 1rem; width: 100%; height: 220px; z-index: 1; pointer-events: none; }
+    .lp-wave text { font-family: var(--display); font-style: italic; font-weight: 400; font-size: 64px; letter-spacing: -2px; fill: var(--pink); }
+    .lp-before-grid { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.05fr; gap: 4.5rem; align-items: center; padding-top: 7rem; }
+    .lp-art { position: relative; width: min(460px, 100%); margin: 0 auto; }
+    .lp-art .arch { width: 100%; display: block; }
+    .lp-art .card { position: absolute; width: 64%; right: -14%; bottom: -17%; transform: rotate(-9deg); filter: drop-shadow(0 16px 28px rgba(27,21,19,.28)); }
+    .lp-tip { margin-bottom: 2.4rem; }
+    .lp-tip h3 { font-family: var(--sans); font-size: 20px; font-weight: 700; text-transform: uppercase; color: var(--body); margin-bottom: .55rem; letter-spacing: .01em; }
+    .lp-tip p { font-size: 20px; line-height: 1.4; color: var(--body); }
+    .lp-tips .btn-dark { margin-top: .5rem; }
 
-    /* Before you start section */
-    .before-section { background: var(--pale); padding: 0 2rem 5rem; overflow: hidden; }
-    .before-marquee { padding: 3rem 0; overflow: hidden; white-space: nowrap; }
-    .before-marquee-track { display: flex; animation: marqueeScroll 20s linear infinite; }
-    .before-marquee-text { font-family: 'Eighties Comeback', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; font-style: italic; color: var(--red); white-space: nowrap; padding-right: 2rem; flex-shrink: 0; }
-    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .before-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; }
-    .before-card-img { max-width: 320px; width: 100%; margin: 0 auto; filter: drop-shadow(0 12px 40px rgba(0,0,0,0.12)); }
-    .before-tip { margin-bottom: 2rem; }
-    .before-tip-title { font-family: 'League Spartan', sans-serif; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 0.4rem; }
-    .before-tip-body { font-size: 0.95rem; font-weight: 300; color: var(--warm); line-height: 1.6; }
+    /* Footer */
+    .lp-foot { position: relative; background: var(--ink); color: var(--cream); overflow: hidden; }
+    .lp-strip { display: grid; grid-template-columns: .55fr 1fr 1fr 1fr .55fr; grid-template-rows: 100%; height: clamp(170px, 20vw, 290px); overflow: hidden; }
+    .lp-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lp-word { position: relative; z-index: 3; font-family: var(--display); font-style: italic; font-weight: 400; color: var(--pink); font-size: clamp(5rem, 21vw, 300px); line-height: .8; letter-spacing: -0.03em; text-align: center; margin-top: clamp(-170px, -12vw, -80px); text-transform: uppercase; pointer-events: none; }
+    .lp-foot-flowers { position: absolute; left: 0; bottom: 0; width: min(500px, 36vw); z-index: 1; pointer-events: none; }
+    .lp-foot-inner { position: relative; z-index: 2; max-width: 980px; margin: 0 auto; padding: 2.5rem 2rem 0 clamp(2rem, 26vw, 300px); }
+    .lp-foot-cta { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; align-items: center; padding-bottom: 2.5rem; }
+    .lp-foot-cta h4 { font-family: var(--sans); font-size: 20px; font-weight: 700; margin-bottom: .9rem; }
+    .lp-foot-cta p { font-size: 18px; line-height: 1.45; color: rgba(250,245,240,.9); }
+    .lp-foot-nav { border-top: 1px solid rgba(250,245,240,.35); border-bottom: 1px solid rgba(250,245,240,.35); padding: 1.1rem 0; display: flex; gap: 1.5rem; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+    .lp-foot-nav a { font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--cream); text-decoration: none; }
+    .lp-foot-nav a:hover { color: var(--pink); }
+    .lp-social { display: flex; gap: .9rem; margin-left: 1rem; }
+    .lp-social svg { width: 20px; height: 20px; fill: var(--cream); display: block; }
+    .lp-social a:hover svg { fill: var(--pink); }
+    .lp-legal { text-align: right; padding: 1.1rem 0 3rem; font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--pink); }
+    .lp-legal a { color: var(--pink); text-decoration: none; }
 
-    /* ── QUIZ ── */
+    /* ── QUIZ ──────────────────────────────────────────────── */
     #screen-quiz { flex-direction: column; }
-    .quiz-header { padding: 1.25rem 2.5rem; display: flex; align-items: center; justify-content: space-between; background: var(--ink); border-bottom: none; position: sticky; top: 0; z-index: 10; }
+    .quiz-header { padding: 1.1rem 2.5rem; display: flex; align-items: center; justify-content: space-between; background: var(--ink); position: sticky; top: 0; z-index: 10; }
     .quiz-progress-wrap { flex: 1; max-width: 280px; margin: 0 2rem; }
-    .quiz-progress-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.45rem; }
-    .quiz-progress-bar { height: 3px; background: rgba(255,255,255,0.2); border-radius: 0; overflow: hidden; }
-    .quiz-progress-fill { height: 100%; background: var(--red-hover); border-radius: 0; transition: width 0.4s ease; }
-    .quiz-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
-    .question-card { width: 100%; max-width: 680px; animation: fadeIn 0.35s ease forwards; }
+    .quiz-progress-label { font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,245,240,0.65); margin-bottom: 0.5rem; }
+    .quiz-progress-bar { height: 3px; background: rgba(250,245,240,0.2); overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: var(--pink); transition: width 0.4s ease; }
+    .quiz-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3.5rem 2rem; }
+    .question-card { width: 100%; max-width: 700px; animation: fadeIn 0.35s ease forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .question-num { font-family: 'Eighties Comeback', serif; font-size: 3.5rem; font-weight: 700; color: var(--red); opacity: 0.18; line-height: 1; margin-bottom: 0.5rem; }
-    .question-text { font-family: 'Eighties Comeback', serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; line-height: 1.3; color: var(--ink); margin-bottom: 2.5rem; }
+    .question-num { font-family: var(--display); font-style: italic; font-size: 4rem; color: var(--pink); line-height: 1; margin-bottom: 0.4rem; }
+    .question-text { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 400; line-height: 1.15; letter-spacing: -0.01em; color: var(--oxblood); margin-bottom: 2.25rem; }
     .answers { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2.5rem; }
-    .answer-btn { width: 100%; text-align: left; padding: 1.1rem 1.5rem; background: var(--cream); border: 2px solid var(--border); cursor: pointer; font-family: 'League Spartan', sans-serif; font-size: 0.9375rem; font-weight: 400; color: var(--ink); line-height: 1.55; transition: all 0.18s ease; display: flex; align-items: flex-start; gap: 1rem; border-radius: 0; }
-    .answer-btn:hover { border-color: var(--red); background: var(--red-light); }
-    .answer-btn.selected { border-color: var(--red); background: var(--red); color: var(--white); }
-    .answer-letter { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.45; min-width: 1rem; margin-top: 0.2rem; font-family: 'League Spartan', sans-serif; }
-    .answer-btn.selected .answer-letter { opacity: 0.7; }
+    .answer-btn { width: 100%; text-align: left; padding: 1.15rem 1.5rem; background: var(--white); border: 1.5px solid var(--border); cursor: pointer; font-family: var(--sans); font-size: 1.05rem; font-weight: 400; color: var(--body); line-height: 1.5; transition: all 0.18s ease; display: flex; align-items: flex-start; gap: 1rem; border-radius: 0; }
+    .answer-btn:hover { border-color: var(--pink); background: var(--pink-lt); }
+    .answer-btn.selected { border-color: var(--ink); background: var(--ink); color: var(--cream); }
+    .answer-letter { font-family: var(--ui); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); min-width: 1rem; margin-top: 0.25rem; }
+    .answer-btn.selected .answer-letter { color: var(--pink); }
     .quiz-footer { display: flex; justify-content: flex-end; gap: 1rem; }
 
-    /* ── OPTIN ── */
-    #screen-optin { align-items: center; justify-content: center; padding: 3rem 2rem; }
-    .optin-card { width: 100%; max-width: 520px; background: var(--cream); padding: 4rem; border: 1px solid var(--border); border-radius: 0; }
-    .optin-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
-    .optin-headline { font-family: 'Eighties Comeback', serif; font-size: 2.2rem; font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 0.75rem; }
-    .optin-body { font-size: 0.9375rem; font-weight: 300; line-height: 1.7; color: var(--warm); margin-bottom: 2.5rem; }
+    /* ── OPTIN ─────────────────────────────────────────────── */
+    #screen-optin { align-items: center; justify-content: center; padding: 3rem 2rem; background: var(--pink) !important; }
+    .optin-card { width: 100%; max-width: 540px; background: var(--cream); padding: 3.5rem; border-radius: 0; box-shadow: 0 30px 60px rgba(45,23,23,.25); }
+    .optin-eyebrow { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink-dk); margin-bottom: 1rem; }
+    .optin-headline { font-family: var(--display); font-style: italic; font-size: 2.6rem; font-weight: 400; line-height: 1; letter-spacing: -0.01em; color: var(--oxblood); margin-bottom: 1rem; }
+    .optin-body { font-size: 1.02rem; line-height: 1.6; color: var(--body); margin-bottom: 2rem; }
     .field { margin-bottom: 1.25rem; }
-    .field label { display: block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem; }
-    .field input { width: 100%; padding: 0.9rem 1rem; font-family: 'League Spartan', sans-serif; font-size: 0.9375rem; color: var(--ink); background: var(--pale); border: 2px solid var(--border); outline: none; transition: border-color 0.15s; border-radius: 0; }
-    .field input:focus { border-color: var(--red); }
-    .field input::placeholder { color: var(--mid); }
-    .optin-privacy { margin-top: 1rem; font-size: 0.78rem; color: var(--mid); line-height: 1.55; }
-    .optin-error { display: none; color: var(--red); font-size: 0.825rem; margin-top: 0.75rem; }
+    .field label { display: block; font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.45rem; }
+    .field input { width: 100%; padding: 0.95rem 1rem; font-family: var(--sans); font-size: 1rem; color: var(--ink); background: var(--white); border: 1.5px solid var(--border); outline: none; transition: border-color 0.15s; border-radius: 0; }
+    .field input:focus { border-color: var(--pink); }
+    .field input::placeholder { color: #A39A93; }
+    .optin-privacy { margin-top: 1rem; font-size: 0.85rem; color: var(--mid); line-height: 1.55; }
+    .optin-error { display: none; color: #C4103A; font-size: 0.9rem; margin-top: 0.75rem; }
     .optin-error.visible { display: block; }
-    .spinner-wrap { display: none; align-items: center; gap: 0.75rem; color: var(--warm); font-size: 0.875rem; margin-top: 1rem; }
+    .spinner-wrap { display: none; align-items: center; gap: 0.75rem; color: var(--body); font-size: 0.9rem; margin-top: 1rem; }
     .spinner-wrap.visible { display: flex; }
-    .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    .spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--pink); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── RESULTS ── */
+    /* ── RESULTS ───────────────────────────────────────────── */
     #screen-results { flex-direction: column; }
-    .results-hero { background: #570022; padding: 5rem 2.5rem 4rem; text-align: center; position: relative; overflow: hidden; }
-    .results-hero::before { content: ''; position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; background: rgba(255,0,191,0.1); }
-    .results-hero::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,0,191,0.12); }
-    .results-logo { width: 120px; margin: 0 auto 2rem; position: relative; z-index: 1; display: block; }
-    .results-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.75rem; position: relative; z-index: 1; }
-    .results-main-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; position: relative; z-index: 1; }
-    .results-archetype-name { font-family: 'Eighties Comeback', serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 1rem; position: relative; z-index: 1; }
-    .results-tagline { font-family: 'Eighties Comeback', serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 400; font-style: italic; color: rgba(255,255,255,0.88); max-width: 600px; margin: 0 auto 2rem; line-height: 1.45; position: relative; z-index: 1; }
-    .results-hero-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.5); font-family: 'League Spartan', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1rem 2.5rem; cursor: pointer; text-decoration: none; position: relative; z-index: 1; transition: all 0.2s; border-radius: 0; }
-    .results-hero-btn:hover { background: rgba(255,255,255,0.28); }
+    .results-hero { background: var(--ink) url('assets/hero-bg.webp') center 30% / cover no-repeat; padding: 4.5rem 2.5rem 4.5rem; text-align: center; position: relative; overflow: hidden; }
+    .results-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(27,21,19,.55), rgba(87,0,33,.85)); }
+    .results-hero > * { position: relative; z-index: 1; }
+    .results-logo { width: 160px; margin: 0 auto 2.5rem; display: block; }
+    .results-eyebrow { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.75rem; }
+    .results-main-label { font-family: var(--sans); font-size: 15px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,245,240,0.8); margin-bottom: 0.5rem; }
+    .results-archetype-name { font-family: var(--display); font-style: italic; font-size: clamp(3.4rem, 9vw, 7rem); font-weight: 400; color: var(--pink); line-height: .9; letter-spacing: -0.02em; margin-bottom: 1.1rem; }
+    .results-tagline { font-family: var(--sans); font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.35rem); font-weight: 500; color: var(--cream); max-width: 620px; margin: 0 auto 2.25rem; line-height: 1.45; }
+    .results-hero-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--pink); color: var(--ink); border: none; font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 1.3rem 2.75rem; cursor: pointer; text-decoration: none; transition: all 0.2s; border-radius: 0; }
+    .results-hero-btn:hover { background: var(--cream); }
 
-    .results-body { max-width: 900px; margin: 0 auto; padding: 3rem 2.5rem 5rem; width: 100%; }
+    .results-body { max-width: 940px; margin: 0 auto; padding: 3.5rem 2.5rem 5rem; width: 100%; }
+    .tier-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3.5rem; }
+    .tier-strip-item { background: var(--white); padding: 1.6rem 1.5rem; border-top: 4px solid var(--border); }
+    .tier-strip-item.main { border-top-color: var(--pink); }
+    .tier-strip-label { font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.45rem; }
+    .tier-strip-item.main .tier-strip-label { color: var(--pink-dk); }
+    .tier-strip-name { font-family: var(--display); font-style: italic; font-size: 1.85rem; font-weight: 400; line-height: 1; color: var(--oxblood); margin-bottom: 0.5rem; }
+    .tier-strip-desc { font-size: 0.92rem; color: var(--body); line-height: 1.55; }
 
-    .tier-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 3.5rem; }
-    .tier-strip-item { background: var(--cream); padding: 1.5rem; }
-    .tier-strip-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.35rem; }
-    .tier-strip-item.main .tier-strip-label { color: var(--red); }
-    .tier-strip-name { font-family: 'Eighties Comeback', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; }
-    .tier-strip-desc { font-size: 0.8rem; font-weight: 300; color: var(--warm); line-height: 1.55; }
-
-    .chart-section-title { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.75rem; }
-    .chart-row { display: grid; grid-template-columns: 160px 1fr 3.5rem; gap: 1rem; align-items: center; padding: 0.45rem 0; }
-    .chart-label { font-size: 0.8rem; font-weight: 500; color: var(--warm); text-align: right; }
+    .chart-section-title { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.75rem; }
+    .chart-row { display: grid; grid-template-columns: 180px 1fr 3.5rem; gap: 1rem; align-items: center; padding: 0.45rem 0; }
+    .chart-label { font-size: 0.92rem; font-weight: 500; color: var(--body); text-align: right; }
     .chart-label.hl { color: var(--ink); font-weight: 700; }
-    .chart-bar-track { height: 7px; background: var(--border); border-radius: 0; overflow: hidden; }
-    .chart-bar-fill { height: 100%; border-radius: 0; transition: width 1s cubic-bezier(0.4,0,0.2,1); width: 0; }
-    .chart-pct { font-size: 0.78rem; font-weight: 600; color: var(--mid); }
+    .chart-bar-track { height: 8px; background: var(--border); overflow: hidden; }
+    .chart-bar-fill { height: 100%; transition: width 1s cubic-bezier(0.4,0,0.2,1); width: 0; }
+    .chart-pct { font-size: 0.85rem; font-weight: 600; color: var(--mid); }
     .chart-pct.hl { color: var(--ink); font-weight: 700; }
-    .badge { display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.2em 0.6em; border-radius: 0; margin-left: 0.5rem; vertical-align: middle; }
-    .badge-main { background: var(--red); color: white; }
-    .badge-second { background: var(--ink); color: white; }
-    .badge-shadow { background: var(--mid); color: white; }
+    .badge { display: inline-block; font-family: var(--ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3em 0.6em 0.2em; margin-left: 0.5rem; vertical-align: middle; }
+    .badge-main { background: var(--pink); color: var(--ink); }
+    .badge-second { background: var(--ink); color: var(--cream); }
+    .badge-shadow { background: var(--mid); color: var(--cream); }
+    .results-note { font-size: 0.98rem; color: var(--body); line-height: 1.65; margin-bottom: 2rem; }
 
-    .results-note { font-size: 0.825rem; color: var(--mid); line-height: 1.65; margin-bottom: 2rem; }
-
-    .results-cta { background: #570022; padding: 4rem 3.5rem; text-align: center; }
-    .results-cta-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.75rem; }
-    .results-cta-headline { font-family: 'Eighties Comeback', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--white); margin-bottom: 0.75rem; line-height: 1.2; }
-    .results-cta-body { font-size: 0.9375rem; font-weight: 300; color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
+    .results-cta { background: var(--pink); padding: 4.5rem 2.5rem; text-align: center; }
+    .results-cta-eyebrow { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 0.9rem; }
+    .results-cta-headline { font-family: var(--display); font-style: italic; font-size: clamp(2.2rem, 5vw, 3.75rem); font-weight: 400; color: var(--oxblood); margin: 0 auto 1rem; line-height: .95; letter-spacing: -0.02em; max-width: 16ch; }
+    .results-cta-body { font-size: 1.05rem; color: var(--oxblood); max-width: 540px; margin: 0 auto 2.25rem; line-height: 1.6; }
     .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-white { background: var(--white); color: var(--ink); font-family: 'League Spartan', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.1rem 2.5rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; border-radius: 0; }
-    .btn-white:hover { background: var(--pale); }
-    .btn-cta { background: var(--red-hover); color: var(--white); font-family: 'League Spartan', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.1rem 2.5rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; border-radius: 0; }
-    .btn-cta:hover { background: #E020A0; transform: translateY(-1px); }
-    .btn-ghost { background: transparent; color: rgba(255,255,255,0.7); border: 2px solid rgba(255,255,255,0.3); font-family: 'League Spartan', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 1.1rem 2rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; border-radius: 0; }
-    .btn-ghost:hover { border-color: white; color: white; }
+    .btn-cta { background: var(--ink); color: var(--cream); font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 1.3rem 2.5rem; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; border-radius: 0; }
+    .btn-cta:hover { background: var(--maroon); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); font-family: var(--ui); font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 1.2rem 2rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; border-radius: 0; }
+    .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+    .btn-white { background: var(--white); color: var(--ink); }
 
     @media (max-width: 900px) {
-      .landing-hero-content { padding: 6rem 1.5rem 3rem; }
-      .hero-cards-img { width: 95%; }
-      .before-content { grid-template-columns: 1fr; gap: 2rem; }
-      .before-card-img { max-width: 240px; }
+      .lp-cards { width: 96vw; }
+      .lp-band { padding: 2rem 1.25rem 3.5rem; }
+      .lp-sub { font-size: 12px; letter-spacing: 1.5px; }
+      .lp-wave { height: 170px; top: 1.5rem; }
+      .lp-wave text { font-size: 46px; }
+      .lp-before { padding: 1rem 1.5rem 4rem; }
+      .lp-before-grid { grid-template-columns: 1fr; gap: 5.5rem; padding-top: 5.5rem; }
+      .lp-art { width: min(340px, 78vw); }
+      .lp-tip h3, .lp-tip p { font-size: 17px; }
+      .lp-foot-inner { padding: 2rem 1.5rem 0; }
+      .lp-foot-cta { grid-template-columns: 1fr; gap: 1.5rem; }
+      .lp-foot-flowers { width: 60vw; opacity: .45; }
+      .lp-foot-nav { justify-content: center; gap: 1rem 1.25rem; }
+      .lp-legal { text-align: center; }
+      .lp-strip { grid-template-columns: repeat(3, 1fr); }
+      .lp-strip img:nth-child(1), .lp-strip img:nth-child(5) { display: none; }
+      .quiz-header { padding: 1rem 1.25rem; }
+      .quiz-header .logo-img { height: 30px; }
+      .quiz-progress-wrap { margin: 0 0 0 1.25rem; }
+      .quiz-header > div:last-child { display: none; }
       .tier-strip { grid-template-columns: 1fr; }
-      .chart-row { grid-template-columns: 110px 1fr 3rem; }
-      .results-body { padding: 2rem 1.5rem 4rem; }
-      .results-cta { padding: 2.5rem 1.5rem; }
+      .chart-row { grid-template-columns: 120px 1fr 3rem; }
+      .results-body { padding: 2.25rem 1.5rem 4rem; }
+      .results-cta { padding: 3rem 1.5rem; }
       .optin-card { padding: 2.5rem 1.75rem; }
+      .optin-headline { font-size: 2.1rem; }
     }
   </style>
 </head>
 <body>
-<body>
 
 <!-- LANDING -->
 <section id="screen-landing" class="screen active">
-  <nav class="landing-nav">
-    <a href="https://flourishonline.com"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
-  </nav>
 
-  <!-- Hero: dark photo fading to pink -->
-  <div class="landing-hero">
-    <div class="landing-hero-bg"></div>
-    <div class="landing-hero-content">
-      <p class="hero-eyebrow">Discover your unique brand archetype</p>
-      <img src="assets/cards-hero.webp" alt="Brand Archetype Cards" class="hero-cards-img" />
-      <h1 class="hero-headline">And unlock<br/>your brand's<br/>superpower</h1>
-      <p class="hero-body">Take our internet-famous 2-minute quiz to unleash your inner superstar and claim the A-list X-factor that'll help you magnetise an adoring fanbase.</p>
-      <p class="hero-body-italic">(+ Get a Personalised Action Plan to Step Into the Spotlight with a Rockstar Brand Archetype that Feels Uniquely You)</p>
+  <!-- Hero: photo + archetype cards spilling into the pink band -->
+  <header class="lp-hero">
+    <div class="lp-hero-photo" aria-hidden="true"></div>
+    <a class="lp-logo" href="https://www.flourishonline.com"><img src="assets/logo-beige.webp" alt="Flourish Online" /></a>
+    <div class="lp-cards">
+      <img class="fl fl-l" src="assets/flowers.webp" alt="" aria-hidden="true" />
+      <img class="fl fl-r" src="assets/flowers.webp" alt="" aria-hidden="true" />
+      <img class="cards" src="assets/cards-hero.webp" alt="Brand archetype cards: The Badass, The Creatress, The Sage and The Alchemist" />
+    </div>
+    <div class="lp-band">
+      <p class="lp-eyebrow">Discover your unique brand archetype</p>
+      <h1 class="lp-h1">And unlock your brand&rsquo;s superpower</h1>
+      <p class="lp-sub">Take our internet-famous 2-minute quiz to unleash your inner superstar and claim the A-list X-factor that&rsquo;ll help you magnetise an adoring fanbase.</p>
+      <p class="lp-italic">(+ Get a Personalised Action Plan to Step Into the Spotlight with a Rockstar Brand Archetype that Feels Uniquely You)</p>
       <button class="btn-dark" onclick="startQuiz()">Yes! Unlock my superpower!</button>
     </div>
-  </div>
+  </header>
 
   <!-- Before you start -->
-  <div class="before-section">
-    <div class="before-marquee">
-      <div class="before-marquee-track">
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
-        <span class="before-marquee-text">Before you start..&nbsp;&nbsp;</span>
+  <div class="lp-before">
+    <svg class="lp-wave" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+      <path id="lpWavePath" d="M-200,175 C150,50 430,50 720,120 S1260,175 1640,70" fill="none" />
+      <text><textPath href="#lpWavePath" startOffset="0">
+        <animate attributeName="startOffset" from="0" to="-640" dur="16s" repeatCount="indefinite" />
+        Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..&#160;&#160;Before you start..
+      </textPath></text>
+    </svg>
+    <div class="lp-before-grid">
+      <div class="lp-art">
+        <img class="arch" src="assets/portrait-arch.webp" alt="" aria-hidden="true" />
+        <img class="card" src="assets/card-nurturer.webp" alt="The Nurturer archetype card" />
       </div>
-    </div>
-    <div class="before-content">
-      <div><img src="assets/card-alchemist.webp" alt="The Alchemist archetype card" class="before-card-img" /></div>
-      <div class="before-tips">
-        <div class="before-tip">
-          <p class="before-tip-title">&#x1F919; Don't overthink things</p>
-          <p class="before-tip-body">Go with your instinct, your gut, your tingling spidey-sense.</p>
+      <div class="lp-tips">
+        <div class="lp-tip">
+          <h3>&#x1F914; Don't overthink things</h3>
+          <p>Go with your instinct, your gut, your tingling spidey-sense.</p>
         </div>
-        <div class="before-tip">
-          <p class="before-tip-title">&#x1F60E; If more than one answer applies...</p>
-          <p class="before-tip-body">choose the one that seems MOST applicable.</p>
+        <div class="lp-tip">
+          <h3>&#x1F60D; If more than one answer applies...</h3>
+          <p>choose the one that seems MOST applicable.</p>
         </div>
-        <div class="before-tip">
-          <p class="before-tip-title">&#x1F6AB; Don't try and guess the 'right' answer</p>
-          <p class="before-tip-body">or the one you think you "should" pick... be as honest with yourself as possible (that's how you'll get the best results).</p>
+        <div class="lp-tip">
+          <h3>&#x26D4; Don't try and guess the 'right' answer</h3>
+          <p>or the one you think you "should" pick... be as honest with yourself as possible (that&rsquo;s how you&rsquo;ll get the best results).</p>
         </div>
         <button class="btn-dark" onclick="startQuiz()">Take the quiz</button>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="lp-foot">
+    <div class="lp-strip" aria-hidden="true">
+      <img src="assets/strip-1.webp" alt="" /><img src="assets/strip-2.webp" alt="" /><img src="assets/strip-3.webp" alt="" /><img src="assets/strip-4.webp" alt="" /><img src="assets/strip-5.webp" alt="" />
+    </div>
+    <div class="lp-word" aria-hidden="true">Flourish</div>
+    <img class="lp-foot-flowers" src="assets/flowers-footer.webp" alt="" aria-hidden="true" />
+    <div class="lp-foot-inner">
+      <div class="lp-foot-cta">
+        <div>
+          <h4>Ready to Discover Your Path to Visibility?</h4>
+          <p>Take our Brand Archetype Quiz to find out why some marketing strategies feel impossible - and which ones will close your visibility gap naturally.</p>
+        </div>
+        <div><button class="btn-pink" onclick="startQuiz()">Discover your brand archetype</button></div>
+      </div>
+      <nav class="lp-foot-nav">
+        <a href="https://www.flourishonline.com/">Home</a>
+        <a href="https://www.flourishonline.com/about">About</a>
+        <a href="https://www.flourishonline.com/services">Services</a>
+        <a href="https://www.flourishonline.com/book-a-call">Book a call</a>
+        <a href="https://www.flourishonline.com/blog">Blog</a>
+        <a href="https://www.flourishonline.com/contact">Contact</a>
+        <span class="lp-social">
+          <a href="https://www.instagram.com/flourishonline/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1C2.6 9.9 2.6 10.3 2.6 12s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4C15.5 4 15.1 4 12 4zm0 3.1a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 8.1a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4zm6.2-8.3a1.1 1.1 0 11-2.3 0 1.1 1.1 0 012.3 0z"/></svg></a>
+          <a href="https://www.facebook.com/flourishonline/" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.7V4.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V14h2.8v8h3.1z"/></svg></a>
+          <a href="https://www.linkedin.com/in/ellissa-nagle-20529b2b/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M6.9 21H3.3V9h3.6v12zM5.1 7.4a2.1 2.1 0 110-4.2 2.1 2.1 0 010 4.2zM21 21h-3.6v-5.8c0-1.4 0-3.2-1.9-3.2-2 0-2.3 1.5-2.3 3.1V21H9.6V9h3.4v1.6h.1c.5-.9 1.7-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5V21z"/></svg></a>
+        </span>
+      </nav>
+      <p class="lp-legal">&copy;FlourishOnline 2026 | <a href="https://www.flourishonline.com/privacy-policy">Privacy policy</a> | <a href="https://www.flourishonline.com/terms-of-use">Terms</a></p>
+    </div>
+  </footer>
 </section>
 
 <!-- QUIZ -->
 <section id="screen-quiz" class="screen">
   <header class="quiz-header">
-    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
+    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-beige.webp" alt="Flourish Online" class="logo-img" /></a>
     <div class="quiz-progress-wrap">
       <div class="quiz-progress-label">Question <span id="prog-num">1</span> of 12</div>
       <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="prog-fill" style="width:8.33%"></div></div>
@@ -256,7 +331,7 @@
 <!-- TIEBREAKER -->
 <section id="screen-tiebreaker" class="screen" style="flex-direction:column">
   <header class="quiz-header">
-    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
+    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-beige.webp" alt="Flourish Online" class="logo-img" /></a>
     <div class="quiz-progress-wrap">
       <div class="quiz-progress-label">One more question</div>
       <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:100%"></div></div>
@@ -271,7 +346,7 @@
 <!-- SHADOW DISCOVERY -->
 <section id="screen-shadow" class="screen" style="flex-direction:column">
   <header class="quiz-header">
-    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-pink.png" alt="Flourish Online" class="logo-img" /></a>
+    <a href="#" onclick="showScreen('screen-landing');return false"><img src="assets/logo-beige.webp" alt="Flourish Online" class="logo-img" /></a>
     <div class="quiz-progress-wrap">
       <div class="quiz-progress-label">Almost there</div>
       <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:100%"></div></div>
@@ -303,7 +378,7 @@
 <!-- RESULTS -->
 <section id="screen-results" class="screen">
   <div class="results-hero">
-    <img src="assets/logo-stacked-pink.png" alt="Flourish Online" class="results-logo">
+    <img src="assets/logo-beige.webp" alt="Flourish Online" class="results-logo">
     <p class="results-eyebrow">Your Brand Archetype Results</p>
     <p class="results-main-label">Your main archetype is</p>
     <h1 class="results-archetype-name" id="r-name">-</h1>
@@ -326,7 +401,7 @@
     <p class="results-cta-body">Your archetype is a strategic asset - but only if your visual brand, website, and messaging actually reflect it. Let's fix the gap between your expertise and your market presence.</p>
     <div class="cta-buttons">
       <a href="#" id="r-cta-btn" class="btn-cta" target="_blank">Explore my archetype in full →</a>
-      <a href="https://flourishonline.com.au/services" class="btn-ghost" target="_blank">Work with Flourish</a>
+      <a href="https://www.flourishonline.com/services" class="btn-ghost" target="_blank">Work with Flourish</a>
     </div>
   </div>
 </section>
@@ -396,18 +471,18 @@ const QUESTIONS = [
 ];
 
 const ARCHETYPES = {
-  'Adventuress':    { color: '#BE1650', url: 'https://flourishonline.com/quiz/brand-archetype-adventuress',    tagline: "You're not here to follow the path. You're here to make one." },
-  'Alchemist':      { color: '#720730', url: 'https://flourishonline.com/quiz/brand-archetype-alchemist',      tagline: "You don't just help people change. You help them become." },
-  'Badass':         { color: '#FF503E', url: 'https://flourishonline.com/quiz/brand-archetype-badass',          tagline: "You were told to be more palatable. You chose not to." },
-  'Creatress':      { color: '#CC1A8C', url: 'https://flourishonline.com/quiz/brand-archetype-creatress',      tagline: "You make things that didn't exist before. That's not a hobby. It's a superpower." },
-  'Girl Next Door': { color: '#193133', url: 'https://flourishonline.com/quiz/brand-archetype-girl-next-door', tagline: "People don't just trust you. They actually like you. That's rarer than any credential." },
-  'Heroine':        { color: '#A3003B', url: 'https://flourishonline.com/quiz/brand-archetype-heroine',        tagline: "You kept going when you had every reason to stop. Now you show others how." },
-  'Lover':          { color: '#E8527A', url: 'https://flourishonline.com/quiz/brand-archetype-lover',          tagline: "You don't just create work. You create experiences that move people." },
-  'Mischief Maker': { color: '#FF7A5C', url: 'https://flourishonline.com/quiz/brand-archetype-mischief-maker', tagline: "You make hard things feel possible by making them feel human. That's not a small gift." },
-  'Nurturer':       { color: '#3A5E60', url: 'https://flourishonline.com/quiz/brand-archetype-nurturer',       tagline: "You create the kind of safety that most people have been looking for their whole lives." },
-  'Pure Heart':     { color: '#9E6B7A', url: 'https://flourishonline.com/quiz/brand-archetype-pure-heart',     tagline: "In a world of performance and polish, you're just genuinely, quietly excellent. That's everything." },
-  'Queen':          { color: '#4A1528', url: 'https://flourishonline.com/quiz/brand-archetype-queen',          tagline: "You don't just take up space. You change what a space is capable of." },
-  'Sage':           { color: '#D4456B', url: 'https://flourishonline.com/quiz/brand-archetype-sage',           tagline: "You don't just know things. You understand them - and that changes everything." }
+  'Adventuress':    { color: '#BE1650', url: 'https://www.flourishonline.com/quiz/brand-archetype-adventuress',    tagline: "You're not here to follow the path. You're here to make one." },
+  'Alchemist':      { color: '#720730', url: 'https://www.flourishonline.com/quiz/brand-archetype-alchemist',      tagline: "You don't just help people change. You help them become." },
+  'Badass':         { color: '#FF503E', url: 'https://www.flourishonline.com/quiz/brand-archetype-badass',          tagline: "You were told to be more palatable. You chose not to." },
+  'Creatress':      { color: '#CC1A8C', url: 'https://www.flourishonline.com/quiz/brand-archetype-creatress',      tagline: "You make things that didn't exist before. That's not a hobby. It's a superpower." },
+  'Girl Next Door': { color: '#193133', url: 'https://www.flourishonline.com/quiz/brand-archetype-gnd', tagline: "People don't just trust you. They actually like you. That's rarer than any credential." },
+  'Heroine':        { color: '#A3003B', url: 'https://www.flourishonline.com/quiz/brand-archetype-heroine',        tagline: "You kept going when you had every reason to stop. Now you show others how." },
+  'Lover':          { color: '#E8527A', url: 'https://www.flourishonline.com/quiz/brand-archetype-lover',          tagline: "You don't just create work. You create experiences that move people." },
+  'Mischief Maker': { color: '#FF7A5C', url: 'https://www.flourishonline.com/quiz/brand-archetype-mischief-maker', tagline: "You make hard things feel possible by making them feel human. That's not a small gift." },
+  'Nurturer':       { color: '#3A5E60', url: 'https://www.flourishonline.com/quiz/brand-archetype-nurturer',       tagline: "You create the kind of safety that most people have been looking for their whole lives." },
+  'Pure Heart':     { color: '#9E6B7A', url: 'https://www.flourishonline.com/quiz/brand-archetype-pure-heart',     tagline: "In a world of performance and polish, you're just genuinely, quietly excellent. That's everything." },
+  'Queen':          { color: '#4A1528', url: 'https://www.flourishonline.com/quiz/brand-archetype-badass-1',          tagline: "You don't just take up space. You change what a space is capable of." },
+  'Sage':           { color: '#D4456B', url: 'https://www.flourishonline.com/quiz/brand-archetype-sage',           tagline: "You don't just know things. You understand them - and that changes everything." }
 };
 
 let currentQ = 0;
@@ -438,7 +513,7 @@ function renderQ() {
   document.getElementById('prog-fill').style.width = `${((currentQ+1)/12)*100}%`;
   const card = document.getElementById('q-card');
   card.innerHTML = `
-    <div class="question-num">0${currentQ+1}</div>
+    <div class="question-num">${String(currentQ+1).padStart(2,'0')}</div>
     <div class="question-text">${q.text}</div>
     <div class="answers">
       ${q.answers.map((a,i) => `
