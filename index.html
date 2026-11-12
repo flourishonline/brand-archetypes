@@ -163,6 +163,13 @@
 
     .results-body { max-width: 940px; margin: 0 auto; padding: 3.5rem 2.5rem 5rem; width: 100%; }
 
+    .close-call { background: var(--white); border-left: 4px solid var(--pink); padding: 1.75rem 2rem; margin-bottom: 3rem; }
+    .close-call[hidden] { display: none; }
+    .close-call-eyebrow { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink-dk); margin-bottom: .5rem; }
+    .close-call-head { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.05; color: var(--oxblood); margin-bottom: .6rem; }
+    .close-call-body { font-size: 1rem; line-height: 1.6; color: var(--body); margin-bottom: 1.25rem; }
+    .close-call-btns { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .close-call-btns a { padding: 1.05rem 1.6rem; }
     .chart-section-title { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.75rem; }
     .chart-row { display: grid; grid-template-columns: 180px 1fr 3.5rem; gap: 1rem; align-items: center; padding: 0.45rem 0; }
     .chart-label { font-size: 0.92rem; font-weight: 500; color: var(--body); text-align: right; }
@@ -375,6 +382,12 @@
     <a href="#" id="r-hero-btn" class="results-hero-btn" target="_blank">Explore your full archetype profile →</a>
   </div>
   <div class="results-body">
+    <div class="close-call" id="close-call" hidden>
+      <p class="close-call-eyebrow">It was close!</p>
+      <h3 class="close-call-head" id="close-call-head"></h3>
+      <p class="close-call-body" id="close-call-body"></p>
+      <div class="close-call-btns" id="close-call-btns"></div>
+    </div>
     <div class="chart-section-title">Your full archetype breakdown</div>
     <div id="chart"></div>
   </div>
@@ -815,6 +828,22 @@ function showResults(firstName, scores) {
   document.getElementById('r-hero-btn').href = main.url;
   document.getElementById('r-cta-head').textContent = `${firstName ? firstName+', your' : 'Your'} brand is the ${r.main}. Now let's make it visible.`;
   document.getElementById('r-cta-btn').href = main.url;
+
+  // Tied at the top? Main was decided by the tiebreaker - offer the others too
+  const top = Math.max(...Object.values(scores));
+  const alsoTop = Object.keys(scores).filter(a => scores[a] === top && a !== r.main);
+  const cc = document.getElementById('close-call');
+  if (alsoTop.length) {
+    const names = alsoTop.map(a => `The ${a}`);
+    const list = names.length === 1 ? names[0] : names.slice(0,-1).join(', ') + ' and ' + names[names.length-1];
+    document.getElementById('close-call-head').textContent = `You scored just as highly as ${list}.`;
+    document.getElementById('close-call-body').textContent = `Your tiebreaker answer tipped you towards The ${r.main}, but you share a lot of energy with ${alsoTop.length === 1 ? 'this archetype' : 'these archetypes'} too. Have a read and see which one feels most like you.`;
+    document.getElementById('close-call-btns').innerHTML = alsoTop.map(a =>
+      `<a class="btn btn-outline" href="${ARCHETYPES[a].url}" target="_blank" rel="noopener">Read about The ${a}&nbsp;→</a>`).join('');
+    cc.hidden = false;
+  } else {
+    cc.hidden = true;
+  }
 
   const chart = document.getElementById('chart');
   chart.innerHTML = r.all.map(([arch, score]) => {
