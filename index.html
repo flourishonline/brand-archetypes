@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brand Archetype Quiz - Flourish Online</title>
+  <!-- Google Analytics 4 (same property as flourishonline.com) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYKKLY27DV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JYKKLY27DV');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -490,7 +498,12 @@ let answers = new Array(12).fill(null);
 // Tiebreaker overrides: { main: 'Archetype', secondary: 'Archetype' }
 let tbOverrides = {};
 
+// GA4 event helper (no personal data is sent)
+function track(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+const SCREEN_EVENTS = { 'screen-optin': 'quiz_complete', 'screen-results': 'quiz_results_view' };
+
 function showScreen(id) {
+  if (SCREEN_EVENTS[id]) track(SCREEN_EVENTS[id]);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
@@ -501,6 +514,7 @@ function startQuiz() {
   answers = new Array(12).fill(null);
   tbOverrides = {};
   shadowAnswer = null;
+  track('quiz_start');
   showScreen('screen-quiz');
   renderQ();
 }
@@ -819,6 +833,7 @@ async function submitOptin() {
     });
   } catch(e) { console.warn('Subscribe call failed (will still show results):', e.message); }
 
+  track('generate_lead', { form_name: 'brand_archetype_quiz', archetype: results.main });
   spinEl.classList.remove('visible');
   showResults(firstName, scores);
 }
