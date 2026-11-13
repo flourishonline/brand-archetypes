@@ -153,6 +153,11 @@
     .results-hero { background: var(--ink) url('assets/hero-bg.webp') center 30% / cover no-repeat; padding: 4.5rem 2.5rem 4.5rem; text-align: center; position: relative; overflow: hidden; }
     .results-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(27,21,19,.55), rgba(87,0,33,.85)); }
     .results-hero > * { position: relative; z-index: 1; }
+    .results-hero-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: minmax(240px, 380px) 1fr; gap: 3.5rem; align-items: center; text-align: left; }
+    .results-card-wrap { perspective: 900px; }
+    .results-card { width: 100%; display: block; transform: rotate(-4deg); filter: drop-shadow(0 24px 40px rgba(0,0,0,.45)); animation: cardIn .8s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(30px) rotate(-12deg) scale(.92); } to { opacity: 1; transform: rotate(-4deg); } }
+    .results-hero-text .results-tagline { margin-left: 0; }
     .results-logo { width: 160px; margin: 0 auto 2.5rem; display: block; }
     .results-eyebrow { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.75rem; }
     .results-main-label { font-family: var(--sans); font-size: 15px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(250,245,240,0.8); margin-bottom: 0.5rem; }
@@ -162,14 +167,14 @@
     .results-hero-btn:hover { background: var(--cream); }
 
     .results-body { max-width: 940px; margin: 0 auto; padding: 3.5rem 2.5rem 5rem; width: 100%; }
-    .tier-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3.5rem; }
-    .tier-strip-item { background: var(--white); padding: 1.6rem 1.5rem; border-top: 4px solid var(--border); }
-    .tier-strip-item.main { border-top-color: var(--pink); }
-    .tier-strip-label { font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.45rem; }
-    .tier-strip-item.main .tier-strip-label { color: var(--pink-dk); }
-    .tier-strip-name { font-family: var(--display); font-style: italic; font-size: 1.85rem; font-weight: 400; line-height: 1; color: var(--oxblood); margin-bottom: 0.5rem; }
-    .tier-strip-desc { font-size: 0.92rem; color: var(--body); line-height: 1.55; }
 
+    .close-call { background: var(--white); border-left: 4px solid var(--pink); padding: 1.75rem 2rem; margin-bottom: 3rem; }
+    .close-call[hidden] { display: none; }
+    .close-call-eyebrow { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink-dk); margin-bottom: .5rem; }
+    .close-call-head { font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.05; color: var(--oxblood); margin-bottom: .6rem; }
+    .close-call-body { font-size: 1rem; line-height: 1.6; color: var(--body); margin-bottom: 1.25rem; }
+    .close-call-btns { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .close-call-btns a { padding: 1.05rem 1.6rem; }
     .chart-section-title { font-family: var(--ui); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.75rem; }
     .chart-row { display: grid; grid-template-columns: 180px 1fr 3.5rem; gap: 1rem; align-items: center; padding: 0.45rem 0; }
     .chart-label { font-size: 0.92rem; font-weight: 500; color: var(--body); text-align: right; }
@@ -180,9 +185,6 @@
     .chart-pct.hl { color: var(--ink); font-weight: 700; }
     .badge { display: inline-block; font-family: var(--ui); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3em 0.6em 0.2em; margin-left: 0.5rem; vertical-align: middle; }
     .badge-main { background: var(--pink); color: var(--ink); }
-    .badge-second { background: var(--ink); color: var(--cream); }
-    .badge-shadow { background: var(--mid); color: var(--cream); }
-    .results-note { font-size: 0.98rem; color: var(--body); line-height: 1.65; margin-bottom: 2rem; }
 
     .results-cta { background: var(--pink); padding: 4.5rem 2.5rem; text-align: center; }
     .results-cta-eyebrow { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 0.9rem; }
@@ -216,9 +218,12 @@
       .quiz-header .logo-img { height: 30px; }
       .quiz-progress-wrap { margin: 0 0 0 1.25rem; }
       .quiz-header > div:last-child { display: none; }
-      .tier-strip { grid-template-columns: 1fr; }
-      .chart-row { grid-template-columns: 120px 1fr 3rem; }
+        .chart-row { grid-template-columns: 120px 1fr 3rem; }
       .results-body { padding: 2.25rem 1.5rem 4rem; }
+      .results-hero { padding: 3rem 1.5rem 3.5rem; }
+      .results-hero-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .results-card-wrap { width: min(250px, 66vw); margin: 0 auto; }
+      .results-hero-text .results-tagline { margin-left: auto; }
       .results-cta { padding: 3rem 1.5rem; }
       .optin-card { padding: 2.5rem 1.75rem; }
       .optin-headline { font-size: 2.1rem; }
@@ -363,7 +368,7 @@
   <div class="optin-card">
     <p class="optin-eyebrow">You're done ✓</p>
     <h2 class="optin-headline">Where should we send your results?</h2>
-    <p class="optin-body">Enter your details below to see your full archetype breakdown - including your main, secondary, and shadow archetypes, and what they mean for your brand.</p>
+    <p class="optin-body">Enter your details below to see your brand archetype, your full archetype breakdown, and what it means for your brand.</p>
     <div class="field"><label for="fn">First name</label><input type="text" id="fn" placeholder="Your first name" autocomplete="given-name"/></div>
     <div class="field"><label for="em">Email address</label><input type="email" id="em" placeholder="you@example.com" autocomplete="email"/></div>
     <div style="margin-top:1.5rem">
@@ -379,21 +384,26 @@
 <section id="screen-results" class="screen">
   <div class="results-hero">
     <img src="assets/logo-beige.webp" alt="Flourish Online" class="results-logo">
-    <p class="results-eyebrow">Your Brand Archetype Results</p>
-    <p class="results-main-label">Your main archetype is</p>
-    <h1 class="results-archetype-name" id="r-name">-</h1>
-    <p class="results-tagline" id="r-tagline">-</p>
-    <a href="#" id="r-hero-btn" class="results-hero-btn" target="_blank">Explore your full archetype profile →</a>
+    <div class="results-hero-grid">
+      <div class="results-card-wrap"><img id="r-card" class="results-card" src="" alt="" /></div>
+      <div class="results-hero-text">
+        <p class="results-eyebrow">Your Brand Archetype Results</p>
+        <p class="results-main-label">You are</p>
+        <h1 class="results-archetype-name" id="r-name">-</h1>
+        <p class="results-tagline" id="r-tagline">-</p>
+        <a href="#" id="r-hero-btn" class="results-hero-btn" target="_blank">Explore your full archetype profile →</a>
+      </div>
+    </div>
   </div>
   <div class="results-body">
-    <div class="tier-strip">
-      <div class="tier-strip-item main"><div class="tier-strip-label">Main Archetype</div><div class="tier-strip-name" id="s-main">-</div><div class="tier-strip-desc">Your dominant brand energy - the through-line of everything.</div></div>
-      <div class="tier-strip-item"><div class="tier-strip-label">Secondary Archetype</div><div class="tier-strip-name" id="s-sec">-</div><div class="tier-strip-desc">Your signature flavour - what makes you distinct within your main.</div></div>
-      <div class="tier-strip-item"><div class="tier-strip-label">Shadow Archetype</div><div class="tier-strip-name" id="s-shad">-</div><div class="tier-strip-desc">The energy you wish came more naturally - your aspirational edge and greatest growth potential.</div></div>
+    <div class="close-call" id="close-call" hidden>
+      <p class="close-call-eyebrow">It was close!</p>
+      <h3 class="close-call-head" id="close-call-head"></h3>
+      <p class="close-call-body" id="close-call-body"></p>
+      <div class="close-call-btns" id="close-call-btns"></div>
     </div>
     <div class="chart-section-title">Your full archetype breakdown</div>
     <div id="chart"></div>
-    <p class="results-note" style="margin-top:2rem"><strong style="color:var(--ink)">Understanding your three archetypes:</strong><br/>Your <em>main</em> archetype is your brand's dominant energy - lean into it. Your <em>secondary</em> is the flavour that makes you unique within your category. Your <em>shadow</em> is the energy you most wish came naturally - the aspirational edge you're drawn to in others. It's not a weakness, it's your next frontier.</p>
   </div>
   <div class="results-cta">
     <p class="results-cta-eyebrow">Your brand finally has a name. Now let's build it.</p>
@@ -828,23 +838,39 @@ function showResults(firstName, scores) {
   const main = ARCHETYPES[r.main];
 
   document.getElementById('r-name').textContent = `The ${r.main}`;
+  const cardImg = document.getElementById('r-card');
+  cardImg.src = `assets/cards/${r.main.toLowerCase().replace(/\s+/g,'-')}.webp`;
+  cardImg.alt = `The ${r.main} brand archetype card`;
   document.getElementById('r-tagline').textContent = main.tagline;
   document.getElementById('r-hero-btn').href = main.url;
-  document.getElementById('s-main').textContent = `The ${r.main}`;
-  document.getElementById('s-sec').textContent = `The ${r.secondary}`;
-  document.getElementById('s-shad').textContent = `The ${r.shadow}`;
   document.getElementById('r-cta-head').textContent = `${firstName ? firstName+', your' : 'Your'} brand is the ${r.main}. Now let's make it visible.`;
   document.getElementById('r-cta-btn').href = main.url;
+
+  // Tied at the top? Main was decided by the tiebreaker - offer the others too
+  const top = Math.max(...Object.values(scores));
+  const alsoTop = Object.keys(scores).filter(a => scores[a] === top && a !== r.main);
+  const cc = document.getElementById('close-call');
+  if (alsoTop.length) {
+    const names = alsoTop.map(a => `The ${a}`);
+    const list = names.length === 1 ? names[0] : names.slice(0,-1).join(', ') + ' and ' + names[names.length-1];
+    document.getElementById('close-call-head').textContent = `You scored just as highly as ${list}.`;
+    document.getElementById('close-call-body').textContent = `Your tiebreaker answer tipped you towards The ${r.main}, but you share a lot of energy with ${alsoTop.length === 1 ? 'this archetype' : 'these archetypes'} too. Have a read and see which one feels most like you.`;
+    document.getElementById('close-call-btns').innerHTML = alsoTop.map(a =>
+      `<a class="btn btn-outline" href="${ARCHETYPES[a].url}" target="_blank" rel="noopener">Read about The ${a}&nbsp;→</a>`).join('');
+    cc.hidden = false;
+  } else {
+    cc.hidden = true;
+  }
 
   const chart = document.getElementById('chart');
   chart.innerHTML = r.all.map(([arch, score]) => {
     const pct = Math.round((score/4)*100);
-    const isMain = arch===r.main, isSec = arch===r.secondary, isShad = arch===r.shadow;
-    const badge = isMain?'<span class="badge badge-main">Main</span>': isSec?'<span class="badge badge-second">Secondary</span>': isShad?'<span class="badge badge-shadow">Shadow</span>':'';
+    const isMain = arch===r.main;
+    const badge = isMain?'<span class="badge badge-main">Yours</span>':'';
     return `<div class="chart-row">
-      <div class="chart-label ${isMain||isSec?'hl':''}">${arch}${badge}</div>
+      <div class="chart-label ${isMain?'hl':''}">${arch}${badge}</div>
       <div class="chart-bar-track"><div class="chart-bar-fill" data-p="${pct}" style="background:${ARCHETYPES[arch].color};width:0"></div></div>
-      <div class="chart-pct ${isMain||isSec?'hl':''}">${pct}%</div>
+      <div class="chart-pct ${isMain?'hl':''}">${pct}%</div>
     </div>`;
   }).join('');
 
